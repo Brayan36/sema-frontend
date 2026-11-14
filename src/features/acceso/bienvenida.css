@@ -1,0 +1,78 @@
+.bv-pagina { min-height: 100svh; display: grid; grid-template-columns: 218px minmax(0, 1fr); background: #f1f6fa; color: #193349; }
+.bv-lateral { display: flex; flex-direction: column; padding: 30px 17px 24px; background: #fcfefd; border-right: 1px solid #dce7ed; }
+.bv-logo { text-decoration: none; margin: 0 10px 48px; }
+.bv-logo .ac-marca-pequena { font-size: 1.65rem; }
+.bv-logo .ac-marca-pequena > svg { width: 43px; height: 43px; }
+.bv-logo .ac-marca-pequena small { display: none; }
+.bv-menu-titulo { margin: 0 12px 16px; font-size: .54rem; color: #7a8c99; letter-spacing: .13em; font-weight: 700; }
+.bv-navegacion { display: grid; gap: 5px; }
+.bv-navegacion > a, .bv-nav-pendiente { display: flex; align-items: center; gap: 13px; padding: 12px 15px; font-size: .78rem; text-decoration: none; color: #4b6374; border-radius: 9px; }
+.bv-navegacion > a svg, .bv-nav-pendiente svg { width: 19px; height: 19px; flex-shrink: 0; }
+.bv-navegacion > a.active { background: #e7f2d6; color: #355e21; font-weight: 700; box-shadow: inset 3px 0 #79ac32; }
+.bv-navegacion > a:hover { background: #eef5e7; }
+.bv-grupo-futuro { margin: 22px 15px 7px; font-size: .53rem; color: #7a8c99; letter-spacing: .13em; }
+.bv-nav-pendiente { color: #7d8d98; }
+.bv-lateral-pie { display: flex; gap: 12px; padding: 22px 14px 0; margin-top: auto; font-size: .66rem; line-height: 1.6; color: #657c8a; }
+.bv-lateral-pie strong { color: #34566b; font-weight: 600; }
+.bv-punto { width: 8px; height: 8px; background: #83b749; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.bv-cuerpo { min-width: 0; }
+.bv-cabecera { min-height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 17px 38px; background: #ffffff9c; border-bottom: 1px solid #e0e9ef; }
+.bv-cabecera > div:first-child { display: flex; align-items: center; gap: 17px; font-size: .7rem; }
+.bv-miga { color: #788e9c; }
+.bv-separador { color: #b4c6cf; }
+.bv-acciones { display: flex; align-items: center; gap: 19px; }
+.bv-boton-icono { display: grid; place-items: center; border: 0; background: transparent; color: #3b5e75; padding: 9px; border-radius: 10px; cursor: pointer; }
+.bv-boton-icono:hover { background: #edf4f8; }
+.bv-barra { width: 1px; height: 28px; background: #dce7ed; }
+.bv-perfil { display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: transparent; cursor: pointer; color: #31536a; text-align: left; }
+.bv-avatar { display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #4a9bc0, #2a638c); font-size: .86rem; font-weight: 700; }
+.bv-perfil-texto { font-size: .72rem; font-weight: 650; }
+.bv-perfil-texto small { display: block; font-size: .58rem; color: #7c8f9d; font-weight: 400; }
+.bv-menu-contenedor { position: relative; }
+.bv-desplegable { position: absolute; top: calc(100% + 13px); right: 0; min-width: 230px; max-width: 290px; z-index: 20; padding: 18px; border: 1px solid #d7e3ea; border-radius: 11px; background: #fff; box-shadow: 0 12px 35px #193c5521; font-size: .75rem; }
+.bv-desplegable p { margin: 8px 0 0; color: #657c8a; overflow-wrap: anywhere; }
+.bv-desplegable button { display: flex; align-items: center; gap: 9px; margin-top: 15px; width: 100%; background: #eff5f8; color: #2e536a; border: 0; padding: 10px; border-radius: 6px; font-size: .7rem; cursor: pointer; }
+.bv-principal { max-width: 1450px; margin: auto; padding: 27px 38px 20px; }
+.bv-demo { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; color: #4d6a7d; }
+.bv-demo > span { font-size: .52rem; white-space: nowrap; padding: 4px 7px; border: 1px solid #bfd3e0; border-radius: 4px; letter-spacing: .06em; font-weight: 700; }
+.bv-demo > p { margin: 0; font-size: .66rem; flex: 1; }
+.bv-demo > button { border: 0; border-bottom: 1px solid #95b5c9; padding: 0; color: #346682; background: transparent; font-size: .66rem; cursor: pointer; }
+.bv-hero { position: relative; min-height: 310px; overflow: hidden; border: 1px solid #cddfeb; border-radius: 19px; background: linear-gradient(90deg, #e9f5fc 0, #e5f3fb 36%, #d8ebf64d 65%, #0d2f4820), url('/images/bienvenida-tierra.jpg') right 44% / 75% auto no-repeat, #c6e2f3; }
+.bv-hero-contenido { position: relative; z-index: 1; padding: 39px; max-width: 630px; }
+.bv-antetitulo { display: inline-flex; align-items: center; gap: 7px; font-size: .57rem; letter-spacing: .15em; color: #3a7685; font-weight: 750; }
+.bv-antetitulo > span { width: 6px; height: 6px; border-radius: 50%; background: #539389; }
+.bv-hero h1 { margin: 18px 0 13px; font-size: clamp(1.7rem, 2.6vw, 2.7rem); color: #14374d; letter-spacing: -.05em; line-height: 1.18; }
+.bv-saludo { display: inline-block; font-size: .8em; }
+.bv-hero-contenido > p { color: #4b7187; font-size: .83rem; line-height: 1.75; margin: 0 0 25px; }
+.bv-boton-hero { display: inline-flex; align-items: center; gap: 20px; padding: 11px 17px; background: #fff; border: 1px solid #aecbdc; border-radius: 7px; color: #275f78; text-decoration: none; font-weight: 650; font-size: .73rem; box-shadow: 0 3px 10px #315a6e0a; }
+.bv-boton-hero:hover { background: #f1f8ff; }
+.bv-boton-hero svg { width: 17px; height: 17px; }
+.bv-hero-etiqueta { position: absolute; right: 25px; bottom: 20px; display: inline-flex; gap: 8px; align-items: center; padding: 6px 9px; background: #0c273784; border: 1px solid #a9c7d738; border-radius: 4px; color: #f4fafc; font-size: .48rem; letter-spacing: .12em; }
+.bv-hero-etiqueta > span { width: 5px; height: 5px; border-radius: 50%; background: #a4d2df; }
+.bv-accesos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
+.bv-tarjeta { display: flex; flex-direction: column; align-items: flex-start; padding: 24px 21px 18px; border: 1px solid #dbe7ed; border-radius: 13px; background: #ffffffd9; text-decoration: none; min-width: 0; box-shadow: 0 3px 12px #36566904; }
+.bv-tarjeta-enlace:hover { border-color: #8db9d0; background: #fff; }
+.bv-icono-herramienta { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; margin-bottom: 21px; }
+.bv-icono-herramienta svg { width: 27px; height: 27px; }
+.bv-azul { color: #2a78a6; background: #eaf4fc; }
+.bv-verde { color: #79a22a; background: #f1f7e4; }
+.bv-rojo { color: #cb6451; background: #fff0ea; }
+.bv-tarjeta h2 { font-size: .88rem; font-weight: 700; margin: 0 0 8px; color: #244358; letter-spacing: -.025em; }
+.bv-tarjeta p { font-size: .7rem; color: #6e8492; line-height: 1.6; margin: 0 0 21px; }
+.bv-tarjeta-pie { display: inline-flex; align-items: center; gap: 9px; margin-top: auto; color: #2d7295; font-size: .65rem; font-weight: 650; }
+.bv-tarjeta-pie svg { width: 15px; height: 15px; }
+.bv-pendiente { display: inline-block; margin-top: auto; background: #f1f5f7; color: #708592; padding: 3px 7px; border-radius: 4px; font-size: .58rem; }
+.bv-primer-paso { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-top: 25px; padding: 30px 34px; border-radius: 14px; border: 1px solid #d9e6dc; background: linear-gradient(100deg, #f4f9f1, #edf5ef); }
+.bv-primer-paso .bv-antetitulo { color: #67865c; }
+.bv-primer-paso h2 { margin: 12px 0 10px; font-size: 1.4rem; letter-spacing: -.04em; color: #2a5138; }
+.bv-primer-paso p { max-width: 450px; font-size: .75rem; color: #677e6d; margin: 0 0 17px; }
+.bv-enlace-paso { display: inline-flex; align-items: center; gap: 13px; font-size: .72rem; color: #3c6f43; font-weight: 650; text-decoration: none; }
+.bv-enlace-paso svg { width: 16px; height: 16px; }
+.bv-pasos { align-self: center; display: grid; gap: 14px; }
+.bv-pasos > span { display: flex; align-items: center; gap: 15px; color: #54705e; font-size: .74rem; }
+.bv-pasos b { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid #d3e3cf; border-radius: 50%; color: #739267; font-size: .57rem; font-weight: 600; }
+.bv-pie { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 23px; color: #7c909e; font-size: .57rem; }
+@media (min-width: 1500px) { .bv-hero { min-height: 360px; } .bv-hero-contenido { padding: 48px; } .bv-principal { padding-top: 35px; } }
+@media (max-width: 1150px) { .bv-pagina { grid-template-columns: 185px minmax(0, 1fr); } .bv-cabecera { padding: 18px 25px; } .bv-principal { padding: 24px; } .bv-accesos { gap: 11px; } .bv-tarjeta { padding: 21px 15px; } .bv-hero-contenido { padding: 30px; } .bv-tarjeta h2 { font-size: .8rem; } }
+@media (max-width: 950px) { .bv-accesos { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bv-primer-paso { grid-template-columns: 1fr; gap: 22px; padding: 26px; } .bv-pasos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; } .bv-pasos > span { flex-direction: column; align-items: flex-start; gap: 8px; font-size: .65rem; } .bv-hero { background-size: cover, cover; } .bv-hero-contenido { max-width: 440px; } .bv-salto { display: none; } }
+@media (max-width: 650px) { .bv-pagina { display: block; } .bv-lateral { padding: 14px 16px 11px; border-right: 0; border-bottom: 1px solid #dce7ed; } .bv-logo { margin: 0 0 12px; } .bv-logo .ac-marca { font-size: 1.45rem; } .bv-logo .ac-marca svg { width: 34px; height: 34px; } .bv-menu-titulo, .bv-grupo-futuro, .bv-nav-pendiente, .bv-lateral-pie { display: none; } .bv-navegacion { display: flex; gap: 7px; } .bv-navegacion > a { padding: 8px 13px; font-size: .71rem; gap: 8px; } .bv-navegacion > a svg { width: 16px; height: 16px; } .bv-cabecera { min-height: 66px; padding: 13px 18px; } .bv-cabecera > div:first-child { gap: 8px; font-size: .62rem; } .bv-perfil-texto, .bv-barra { display: none; } .bv-acciones { gap: 9px; } .bv-avatar { width: 33px; height: 33px; } .bv-principal { padding: 17px 14px; } .bv-demo { align-items: flex-start; gap: 9px; } .bv-demo > p { font-size: .59rem; } .bv-demo > span { font-size: .46rem; } .bv-hero { min-height: 305px; border-radius: 14px; background: linear-gradient(90deg, #e8f5fcf5 0, #e6f3fadb 60%, #d8ebf682), url('/images/bienvenida-tierra.jpg') center / cover; } .bv-hero-contenido { padding: 26px 23px 52px; } .bv-hero h1 { font-size: 1.95rem; max-width: 290px; } .bv-hero-contenido > p { font-size: .76rem; } .bv-hero-etiqueta { bottom: 15px; right: 16px; } .bv-accesos { gap: 11px; margin-top: 16px; } .bv-tarjeta { padding: 18px 15px; } .bv-icono-herramienta { width: 39px; height: 39px; margin-bottom: 17px; } .bv-tarjeta h2 { font-size: .79rem; } .bv-tarjeta p { font-size: .64rem; } .bv-primer-paso { padding: 22px; margin-top: 17px; } .bv-primer-paso h2 { font-size: 1.3rem; } .bv-pie { gap: 5px; font-size: .52rem; } }
