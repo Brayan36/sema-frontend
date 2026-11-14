@@ -1,0 +1,19 @@
+:root {
+  --color-fondo: #f3f6f7;
+  --color-superficie: #ffffff;
+  --color-azul: #102c46;
+  --color-texto: #203343;
+  --color-secundario: #536674;
+  --color-verde: #267247;
+  --color-verde-oscuro: #1b5634;
+  --color-borde: #d5dfe3;
+  --color-foco: #1466b0;
+  --radio-tarjeta: 16px;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

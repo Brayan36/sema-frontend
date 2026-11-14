@@ -1,0 +1,40 @@
+.territorios .tarjeta-formulario { max-width: 720px; }
+.territorios .formulario-finca { display: grid; gap: 22px; }
+.territorios .campo { display: grid; align-content: start; gap: 8px; min-width: 0; }
+.territorios label, .territorios legend { color: var(--color-azul); font-size: .9rem; font-weight: 650; }
+.territorios label span { color: var(--color-secundario); font-weight: 400; }
+.territorios input, .territorios select { min-width: 0; width: 100%; border: 1px solid #bccdd3; border-radius: 8px; padding: 11px 12px; color: var(--color-texto); background: #fbfcfc; }
+.territorios .campos-dobles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.territorios .ubicacion-campos { min-width: 0; margin: 0; padding: 20px; border: 1px solid var(--color-borde); border-radius: 10px; }
+.territorios .ubicacion-campos legend { padding: 0 8px; }
+.territorios .formulario-finca > p { margin: 0; }
+.territorios .distribucion-mapa { display: grid; grid-template-columns: minmax(0, 1fr) 280px; align-items: start; gap: 20px; }
+.territorios .tarjeta-mapa { padding: 12px; }
+.territorios .espacio-mapa { min-height: 430px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 32px; text-align: center; border: 1px dashed #a7bdc8; border-radius: 10px; background: #f0f5f7; }
+.territorios .espacio-mapa p, .territorios .espacio-mapa h2 { max-width: 460px; margin: 0; }
+.territorios .simbolo-ubicacion { font-size: 3rem; line-height: 1; color: var(--color-verde); }
+.territorios .coordenadas-referencia { font-weight: 650; overflow-wrap: anywhere; }
+.territorios .datos-terreno { margin-bottom: 28px; }
+.territorios .datos-terreno div { margin-bottom: 12px; }
+.territorios dt { color: var(--color-secundario); font-size: .8rem; }
+.territorios dd { margin: 0; overflow-wrap: anywhere; }
+.territorios .distribucion-mapa .enlace-boton { margin-top: 20px; width: 100%; }
+.territorios .mapa-interactivo { width: 100%; height: 520px; border-radius: 10px; isolation: isolate; }
+.territorios .estado-mapa { padding: 12px; margin-bottom: 0; }
+.territorios .nota-imagen { margin: 8px 12px 12px; }
+.territorios .coordenadas-poligono { max-height: 220px; overflow: auto; font-size: .8rem; text-align: left; }
+.territorios .leaflet-container { font: 14px/1.5 Arial, sans-serif; }
+.territorios .leaflet-container a { color: #12536f; }
+.territorios .filtros-imagenes { display: grid; gap: 16px; margin: 24px 0; }
+.territorios .filtros-imagenes h3, .territorios .ficha-escena h3 { margin: 0; color: var(--color-azul); font-size: 1rem; }
+.territorios .ficha-escena { padding: 16px; margin-top: 20px; border: 1px solid var(--color-borde); border-radius: 10px; background: #f0f5f7; overflow-wrap: anywhere; }
+.territorios .ficha-escena p { margin: 8px 0 0; }
+@media (max-width: 1100px) {
+  .territorios .distribucion-mapa { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .territorios .campos-dobles { grid-template-columns: 1fr; }
+  .territorios .ubicacion-campos { padding: 16px; }
+  .territorios .espacio-mapa { min-height: 320px; padding: 20px; }
+  .territorios .mapa-interactivo { height: 360px; }
+}
