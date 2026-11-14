@@ -1,0 +1,53 @@
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; line-height: 1.6; }
+button, input, select, textarea { font: inherit; }
+a { color: var(--color-verde-oscuro); text-underline-offset: 4px; }
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--color-foco); outline-offset: 4px; }
+h1, h2, p { margin-top: 0; }
+h1 { color: var(--color-azul); font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.16; letter-spacing: -.035em; margin-bottom: 16px; }
+h2 { color: var(--color-azul); font-size: 1.15rem; line-height: 1.35; }
+.encabezado-sema { min-height: 84px; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--color-azul); color: white; }
+.marca-sema { display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; font-weight: 750; letter-spacing: .12em; }
+.marca-sema small { display: block; font-size: .7rem; font-weight: 400; letter-spacing: .02em; color: #d4e0e9; }
+.marca-simbolo { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #98b8af; border-radius: 50%; color: #bfe3bf; }
+.etiqueta-base { border: 1px solid #587184; padding: 4px 12px; border-radius: 30px; font-size: .75rem; }
+.estructura-sema { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: calc(100svh - 84px); }
+.barra-lateral { padding: 28px 16px; background: white; border-right: 1px solid var(--color-borde); }
+.barra-lateral nav { display: grid; gap: 8px; }
+.enlace-nav { display: flex; align-items: center; gap: 12px; padding: 12px; text-decoration: none; color: var(--color-secundario); border-radius: 10px; border-left: 3px solid transparent; }
+.enlace-nav span { font-size: .75rem; }
+.enlace-nav:hover { background: #f0f5f3; }
+.enlace-nav.activo { background: #e8f2ec; color: var(--color-verde-oscuro); border-left-color: var(--color-verde); font-weight: 650; }
+.nota-lateral { margin: 40px 12px 0; color: var(--color-secundario); font-size: .8rem; }
+.contenido-principal { min-width: 0; }
+.pagina { width: 100%; max-width: 1300px; margin: 0 auto; padding: 48px 40px; }
+.sobre-titulo { font-size: .7rem; font-weight: 750; letter-spacing: .15em; color: var(--color-verde-oscuro); margin-bottom: 12px; }
+.introduccion { color: var(--color-secundario); max-width: 700px; margin-bottom: 28px; }
+.tarjeta { min-width: 0; padding: 28px; background: var(--color-superficie); border: 1px solid var(--color-borde); border-radius: var(--radio-tarjeta); }
+.tarjeta p:last-child { margin-bottom: 0; }
+.boton, .enlace-boton { display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 12px 20px; border: 1px solid var(--color-verde); border-radius: 9px; color: white; background: var(--color-verde); font-weight: 650; text-decoration: none; cursor: pointer; }
+.boton:hover, .enlace-boton:hover { background: var(--color-verde-oscuro); }
+.boton:disabled, select:disabled { opacity: .7; cursor: not-allowed; }
+.enlace-boton.secundario { background: white; color: var(--color-verde-oscuro); }
+.enlace-boton.secundario:hover { background: #e8f2ec; }
+.texto-secundario, .mensaje-estado { color: var(--color-secundario); font-size: .85rem; }
+.mensaje-error { padding: 12px; color: #842c25; background: #fff0ed; border-left: 3px solid #b44438; }
+.aviso { padding: 16px; background: #e9f1f9; border: 1px solid #b9cfdf; border-radius: 10px; }
+.saltar-contenido { position: absolute; left: 16px; top: -100px; z-index: 1000; padding: 12px; background: white; }
+.saltar-contenido:focus { top: 12px; }
+@media (max-width: 1000px) {
+  .estructura-sema { grid-template-columns: 190px minmax(0, 1fr); }
+  .pagina { padding: 32px 24px; }
+}
+@media (max-width: 700px) {
+  .encabezado-sema { padding: 16px; }
+  .etiqueta-base { max-width: 125px; font-size: .65rem; }
+  .estructura-sema { display: block; }
+  .barra-lateral { padding: 8px; border-right: 0; border-bottom: 1px solid var(--color-borde); }
+  .barra-lateral nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+  .enlace-nav { font-size: .85rem; padding: 9px; gap: 8px; }
+  .nota-lateral { display: none; }
+  .pagina { padding: 28px 16px; }
+  .tarjeta { padding: 20px; }
+}
