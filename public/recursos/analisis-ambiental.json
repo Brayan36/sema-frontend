@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "analysisId": "demo-analysis-medellin-2024",
+  "farmId": null,
+  "location": { "latitude": 6.2442, "longitude": -75.5812 },
+  "period": { "start": "2024-01-01", "end": "2024-01-03" },
+  "fetchedAt": "2024-01-04T12:00:00.000Z",
+  "createdAt": "2024-01-04T12:00:00.000Z",
+  "expiresAt": null,
+  "rawResponses": {},
+  "providerErrors": [],
+  "series": [
+    {
+      "variable": "temperatura",
+      "frequency": "diaria",
+      "unit": "°C",
+      "type": "historico",
+      "temporalReference": "UTC",
+      "period": { "start": "2024-01-01", "end": "2024-01-03" },
+      "provenance": {
+        "provider": "open-meteo",
+        "model": "ERA5-Land",
+        "dataset": "temperatura-demostracion",
+        "attribution": "Dato simulado para demostración; no representa una medición real.",
+        "spatialResolution": "0.1° (aprox. 9 km)"
+      },
+      "observations": [
+        { "date": "2024-01-01", "value": 22.1 },
+        { "date": "2024-01-02", "value": 22.8 },
+        { "date": "2024-01-03", "value": 21.9 }
+      ]
+    },
+    {
+      "variable": "precipitacion",
+      "frequency": "diaria",
+      "unit": "mm",
+      "type": "historico",
+      "temporalReference": "UTC",
+      "period": { "start": "2024-01-01", "end": "2024-01-03" },
+      "provenance": {
+        "provider": "nasa-power",
+        "dataset": "precipitacion-demostracion",
+        "attribution": "Dato simulado para demostración; no representa una medición real."
+      },
+      "observations": [
+        { "date": "2024-01-01", "value": 2.1 },
+        { "date": "2024-01-02", "value": 0 },
+        { "date": "2024-01-03", "value": 4.6 }
+      ]
+    }
+  ]
+}
