@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import MainLayout from './components/layout/MainLayout';
@@ -12,6 +12,7 @@ import RegistroUsuario from './features/acceso/RegistroUsuario';
 import InicioSesion from './features/acceso/InicioSesion';
 import RecuperarContrasena from './features/acceso/RecuperarContrasena';
 import Bienvenida from './features/acceso/Bienvenida';
+import { demostracionHabilitada, useAutenticacion } from './features/acceso/useAutenticacion';
 
 import { useAnalisisAmbiental } from './features/analisis-ambiental/hooks/useAnalisisAmbiental';
 
@@ -22,7 +23,6 @@ import {
 
 import type { BorradorFinca } from './types/finca';
 import type { ReglaRiesgo } from './types/ambiental';
-import type { SesionAcceso } from './features/acceso/types';
 
 const AnalisisClimatico = lazy(
   () => import('./features/analisis-ambiental/AnalisisClimatico')
@@ -116,9 +116,9 @@ export default function App() {
     leerFincaLocal
   );
 
-  const [sesion, setSesion] = useState<SesionAcceso | null>(
-    null
-  );
+  const limpiarDatosSesion = useCallback(() => setBorrador(null), []);
+  const autenticacion = useAutenticacion(limpiarDatosSesion);
+  const { sesion } = autenticacion;
 
   const [reglasRiesgo, setReglasRiesgo] = useState<ReglaRiesgo[]>(
     leerReglasLocales
@@ -134,8 +134,7 @@ export default function App() {
   const climaAgricola = adaptarClimaAgricola(disponible);
 
   function salir() {
-    setSesion(null);
-    setBorrador(null);
+    autenticacion.salir();
   }
 
   useEffect(() => {
@@ -177,6 +176,22 @@ export default function App() {
     );
   }
 
+  if (autenticacion.comprobando) {
+    return <div className="pagina" role="status">Validando tu sesión con el servidor…</div>;
+  }
+
+  if (autenticacion.errorRestauracion) {
+    return (
+      <div className="pagina">
+        <h1>No pudimos validar tu sesión</h1>
+        <p role="alert">{autenticacion.errorRestauracion}</p>
+        <button className="boton" onClick={autenticacion.reintentar}>Reintentar</button>
+        {' '}
+        <button onClick={salir}>Volver al acceso</button>
+      </div>
+    );
+  }
+
   return (
     <Suspense fallback={<p>Cargando módulo...</p>}>
       <Routes>
@@ -186,19 +201,33 @@ export default function App() {
         {/* Acceso de usuarios */}
         <Route
           path="/registro"
-          element={<RegistroUsuario />}
+          element={sesion ? <Navigate to="/bienvenido" replace /> : <RegistroUsuario />}
         />
 
         <Route
           path="/login"
           element={
-            <InicioSesion onIniciar={setSesion} />
+            sesion ? (
+              <Navigate to="/bienvenido" replace />
+            ) : (
+              <InicioSesion
+                aviso={autenticacion.mensaje}
+                onIniciar={async (correo, clave) => {
+                  setBorrador(null);
+                  await autenticacion.iniciarSesion(correo, clave);
+                }}
+                onExplorar={demostracionHabilitada ? () => {
+                  setBorrador(null);
+                  autenticacion.explorar();
+                } : undefined}
+              />
+            )
           }
         />
 
         <Route
           path="/recuperar-contrasena"
-          element={<RecuperarContrasena />}
+          element={sesion ? <Navigate to="/bienvenido" replace /> : <RecuperarContrasena />}
         />
 
         <Route
@@ -217,13 +246,15 @@ export default function App() {
 
         {/* Plataforma agrícola */}
         <Route
-  element={
-    <MainLayout
-      onSalir={salir}
-      demostracion={sesion?.origen === 'demostracion'}
-    />
-  }
->
+          element={sesion ? (
+            <MainLayout
+              onSalir={salir}
+              demostracion={sesion.origen === 'demostracion'}
+            />
+          ) : (
+            <Navigate to="/login" replace />
+          )}
+        >
           <Route
             path="mi-finca"
             element={
@@ -289,11 +320,12 @@ export default function App() {
             }
           />
 
-          <Route
-            path="acerca-de-nosotros"
-            element={<AcercaDeNosotros />}
-          />
         </Route>
+
+        <Route
+          path="/acerca-de-nosotros"
+          element={<AcercaDeNosotros />}
+        />
 
         {/* Rutas desconocidas */}
         <Route
