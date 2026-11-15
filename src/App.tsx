@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
-import AnalisisClimatico from './features/analisis-ambiental/AnalisisClimatico';
-import DatosHistoricos from './features/analisis-ambiental/DatosHistoricos';
+import InicioSesion from './features/acceso/InicioSesion';
+import RegistroUsuario from './features/acceso/RegistroUsuario';
+import RecuperarContrasena from './features/acceso/RecuperarContrasena';
+import Bienvenida from './features/acceso/Bienvenida';
+import type { SesionAcceso } from './features/acceso/types';
 import { useAnalisisAmbiental } from './features/analisis-ambiental/hooks/useAnalisisAmbiental';
-import RiesgosAlertas from './features/riesgos/RiesgosAlertas';
 import { leerReglasLocales, guardarReglasLocales } from './features/riesgos/services/reglasLocal';
-import MiFinca from './features/territorios/MiFinca';
-import MapaSatelital from './features/territorios/MapaSatelital';
 import type { ReglaRiesgo } from './types/ambiental';
 import type { BorradorFinca } from './types/finca';
+
+const AnalisisClimatico = lazy(() => import('./features/analisis-ambiental/AnalisisClimatico'));
+const DatosHistoricos = lazy(() => import('./features/analisis-ambiental/DatosHistoricos'));
+const RiesgosAlertas = lazy(() => import('./features/riesgos/RiesgosAlertas'));
+const MiFinca = lazy(() => import('./features/territorios/MiFinca'));
+const MapaSatelital = lazy(() => import('./features/territorios/MapaSatelital'));
 
 const CLAVE_FINCA_LOCAL = 'sema-finca-ambiental-v1';
 
@@ -42,8 +48,14 @@ function leerFincaLocal(): BorradorFinca | null {
 
 export default function App() {
   const [borrador, setBorrador] = useState<BorradorFinca | null>(leerFincaLocal);
+  const [sesion, setSesion] = useState<SesionAcceso | null>(null);
   const [reglasRiesgo, setReglasRiesgo] = useState<ReglaRiesgo[]>(leerReglasLocales);
-  const analisisAmbiental = useAnalisisAmbiental(borrador);
+  const analisisAmbiental = useAnalisisAmbiental(borrador, sesion !== null);
+
+  function salir() {
+    setSesion(null);
+    setBorrador(null);
+  }
 
   useEffect(() => {
     try {
@@ -66,25 +78,33 @@ export default function App() {
   useEffect(() => guardarReglasLocales(reglasRiesgo), [reglasRiesgo]);
 
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route index element={<Navigate to="/mi-finca" replace />} />
-        <Route path="mi-finca" element={<MiFinca borrador={borrador} onSeleccionar={setBorrador} />} />
-        <Route path="mapa" element={<MapaSatelital borrador={borrador} onActualizar={setBorrador} />} />
-        <Route path="analisis-climatico" element={
-          <AnalisisClimatico borrador={borrador} disponible={analisisAmbiental.disponible}
-            reglasRiesgo={reglasRiesgo}
-            cargando={analisisAmbiental.cargando} error={analisisAmbiental.error}
-            onConsultar={analisisAmbiental.consultar} />
-        } />
-        <Route path="riesgos-alertas" element={
-          <RiesgosAlertas disponible={analisisAmbiental.disponible} reglas={reglasRiesgo}
-            onAgregarRegla={(regla) => setReglasRiesgo((actuales) => [...actuales, regla])}
-            onEliminarRegla={(id) => setReglasRiesgo((actuales) => actuales.filter((regla) => regla.id !== id))} />
-        } />
-        <Route path="datos-historicos" element={<DatosHistoricos disponible={analisisAmbiental.disponible} />} />
-        <Route path="*" element={<Navigate to="/mi-finca" replace />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<div className="pagina" role="status">Preparando tu espacio de trabajo…</div>}>
+      <Routes>
+        <Route index element={<Navigate to={sesion ? '/bienvenido' : '/login'} replace />} />
+        <Route path="login" element={sesion ? <Navigate to="/bienvenido" replace /> : <InicioSesion onIniciar={setSesion} />} />
+        <Route path="registro" element={sesion ? <Navigate to="/bienvenido" replace /> : <RegistroUsuario />} />
+        <Route path="recuperar-contrasena" element={sesion ? <Navigate to="/bienvenido" replace /> : <RecuperarContrasena />} />
+        <Route path="bienvenido" element={sesion ? <Bienvenida sesion={sesion} onSalir={salir} /> : <Navigate to="/login" replace />} />
+        <Route element={sesion
+          ? <MainLayout onSalir={salir} demostracion={sesion.origen === 'demostracion'} />
+          : <Navigate to="/login" replace />}>
+          <Route path="mi-finca" element={<MiFinca borrador={borrador} onSeleccionar={setBorrador} />} />
+          <Route path="mapa" element={<MapaSatelital borrador={borrador} onActualizar={setBorrador} />} />
+          <Route path="analisis-climatico" element={
+            <AnalisisClimatico borrador={borrador} disponible={analisisAmbiental.disponible}
+              reglasRiesgo={reglasRiesgo}
+              cargando={analisisAmbiental.cargando} error={analisisAmbiental.error}
+              onConsultar={analisisAmbiental.consultar} />
+          } />
+          <Route path="riesgos-alertas" element={
+            <RiesgosAlertas disponible={analisisAmbiental.disponible} reglas={reglasRiesgo}
+              onAgregarRegla={(regla) => setReglasRiesgo((actuales) => [...actuales, regla])}
+              onEliminarRegla={(id) => setReglasRiesgo((actuales) => actuales.filter((regla) => regla.id !== id))} />
+          } />
+          <Route path="datos-historicos" element={<DatosHistoricos disponible={analisisAmbiental.disponible} />} />
+        </Route>
+        <Route path="*" element={<Navigate to={sesion ? '/bienvenido' : '/login'} replace />} />
+      </Routes>
+    </Suspense>
   );
 }

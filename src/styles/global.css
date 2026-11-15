@@ -12,6 +12,9 @@ h2 { color: var(--color-azul); font-size: 1.15rem; line-height: 1.35; }
 .marca-sema small { display: block; font-size: .7rem; font-weight: 400; letter-spacing: .02em; color: #d4e0e9; }
 .marca-simbolo { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #98b8af; border-radius: 50%; color: #bfe3bf; }
 .etiqueta-base { border: 1px solid #587184; padding: 4px 12px; border-radius: 30px; font-size: .75rem; }
+.acciones-cabecera { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
+.boton-salir { padding: 7px 12px; border: 1px solid #91adb9; border-radius: 7px; color: white; background: transparent; font-size: .75rem; cursor: pointer; }
+.boton-salir:hover { background: #25465f; }
 .estructura-sema { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: calc(100svh - 84px); }
 .barra-lateral { padding: 28px 16px; background: white; border-right: 1px solid var(--color-borde); }
 .barra-lateral nav { display: grid; gap: 8px; }

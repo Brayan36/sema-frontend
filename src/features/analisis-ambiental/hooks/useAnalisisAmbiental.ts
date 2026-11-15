@@ -4,7 +4,7 @@ import type { BorradorFinca } from '../../../types/finca';
 import { cargarAnalisisHistorico, sincronizarAnalisisPendientes } from '../services/cargarAnalisis';
 import { obtenerUltimoAnalisisLocal } from '../services/cacheLocal';
 
-export function useAnalisisAmbiental(borrador: BorradorFinca | null) {
+export function useAnalisisAmbiental(borrador: BorradorFinca | null, habilitado = true) {
   const [estado, setEstado] = useState<{
     claveUbicacion: string;
     disponible: AnalisisDisponible | null;
@@ -20,11 +20,17 @@ export function useAnalisisAmbiental(borrador: BorradorFinca | null) {
     : `${latitud}|${longitud}`;
 
   useEffect(() => {
+    if (!habilitado) {
+      controladorActual.current?.abort();
+      controladorActual.current = null;
+      return;
+    }
     controladorActual.current?.abort();
     controladorActual.current = null;
-  }, [claveUbicacion]);
+  }, [claveUbicacion, habilitado]);
 
   useEffect(() => {
+    if (!habilitado) return;
     let vigente = true;
     const restaurarAnalisisLocal = async () => {
       if (navigator.onLine || controladorActual.current
@@ -73,11 +79,12 @@ export function useAnalisisAmbiental(borrador: BorradorFinca | null) {
       window.removeEventListener('online', reintentarEnviosPendientes);
       window.removeEventListener('offline', restaurarAnalisisLocal);
     };
-  }, [claveUbicacion, latitud, longitud]);
+  }, [claveUbicacion, habilitado, latitud, longitud]);
 
   useEffect(() => () => controladorActual.current?.abort(), []);
 
   const consultar = useCallback(async (periodo: Omit<ConsultaHistoricaAmbiental, 'ubicacion'>) => {
+    if (!habilitado) return;
     if (!borrador) {
       setEstado({ claveUbicacion, disponible: null, cargando: false, error: 'Primero selecciona la ubicación de la finca.' });
       return;
@@ -117,7 +124,7 @@ export function useAnalisisAmbiental(borrador: BorradorFinca | null) {
           : anterior);
       }
     }
-  }, [borrador, claveUbicacion]);
+  }, [borrador, claveUbicacion, habilitado]);
 
   const estadoActual = estado?.claveUbicacion === claveUbicacion
     ? estado
