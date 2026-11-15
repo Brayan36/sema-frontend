@@ -1,0 +1,471 @@
+/* ==========================================
+   SEMA - Pantalla de Inicio
+   Landing page principal
+   ========================================== */
+
+.sema-inicio,
+.sema-inicio * {
+  box-sizing: border-box;
+}
+
+.sema-inicio {
+  min-height: 100vh;
+  padding: 14px;
+  background: #eaf1f7;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1c2934;
+}
+
+/* ==========================================
+   PORTADA PRINCIPAL
+   ========================================== */
+
+.sema-portada {
+  width: 100%;
+  max-width: 1500px;
+  min-height: calc(100vh - 28px);
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+
+  box-shadow: 0 16px 45px rgba(22, 48, 63, 0.15);
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.82) 28%,
+      rgba(255, 255, 255, 0.40) 48%,
+      rgba(255, 255, 255, 0.06) 72%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("/images/cultivo.jpeg");
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* ==========================================
+   BARRA SUPERIOR BLANCA TRANSLUCIDA
+   ========================================== */
+
+.sema-encabezado {
+  width: 100%;
+  margin: 0;
+  padding: 20px 42px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+
+  position: relative;
+  z-index: 2;
+
+  background: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 3px 14px rgba(22, 48, 63, 0.08);
+}
+
+/* Marca superior */
+
+.sema-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+
+  color: #205a3c;
+  font-size: 27px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.sema-hoja {
+  font-size: 31px;
+  line-height: 1;
+}
+
+/* Navegacion superior */
+
+.sema-menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 34px;
+  flex-wrap: wrap;
+}
+
+.sema-menu a {
+  color: #1f2f3a;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+
+  padding: 8px 0;
+  border-bottom: 3px solid transparent;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sema-menu a:hover {
+  color: #2c8245;
+  border-bottom-color: #78ae79;
+}
+
+.sema-menu .sema-enlace-activo {
+  color: #205a3c;
+  border-bottom-color: #4d9b54;
+}
+
+/* ==========================================
+   PRESENTACION DE SEMA
+   ========================================== */
+
+.sema-presentacion {
+  width: min(100%, 690px);
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 22px 46px 35px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.sema-identidad {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.sema-simbolo {
+  font-size: clamp(58px, 7vw, 96px);
+  line-height: 1;
+}
+
+.sema-identidad h1 {
+  margin: 0;
+
+  color: #173a2a;
+  font-size: clamp(62px, 8vw, 105px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.98;
+}
+
+.sema-identidad p {
+  margin: 9px 0 0;
+
+  color: #315544;
+  font-size: clamp(13px, 1.5vw, 18px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sema-presentacion h2 {
+  max-width: 620px;
+  margin: 0 0 20px;
+
+  color: #203541;
+  font-size: clamp(25px, 2.8vw, 36px);
+  line-height: 1.24;
+  font-weight: 750;
+}
+
+.sema-descripcion {
+  max-width: 540px;
+  margin: 0 0 28px;
+
+  color: #344e58;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* ==========================================
+   BOTONES PRINCIPALES
+   ========================================== */
+
+.sema-acciones {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sema-boton-comenzar,
+.sema-boton-conocer {
+  min-height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  padding: 13px 30px;
+  border-radius: 999px;
+
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sema-boton-comenzar {
+  color: #ffffff;
+  background: linear-gradient(180deg, #76c946, #318d2b);
+  box-shadow: 0 8px 18px rgba(43, 125, 44, 0.24);
+}
+
+.sema-boton-conocer {
+  color: #205a76;
+  background: rgba(255, 255, 255, 0.93);
+  border: 2px solid #8faec5;
+}
+
+.sema-boton-comenzar:hover,
+.sema-boton-conocer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(30, 67, 45, 0.18);
+}
+
+.sema-boton-comenzar:focus-visible,
+.sema-boton-conocer:focus-visible,
+.sema-menu a:focus-visible,
+.sema-marca:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
+}
+
+/* ==========================================
+   BENEFICIOS INFERIORES
+   ========================================== */
+
+.sema-beneficios {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 18px;
+
+  padding: 20px 46px 24px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.91),
+    rgba(255, 255, 255, 0.67),
+    rgba(255, 255, 255, 0.48)
+  );
+
+  border-top: 1px solid rgba(255, 255, 255, 0.60);
+
+  position: relative;
+  z-index: 1;
+}
+
+.sema-beneficio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+
+  color: #233d43;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sema-beneficio-icono {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  background: rgba(223, 245, 218, 0.94);
+
+  font-size: 25px;
+}
+
+/* ==========================================
+   TABLETAS
+   ========================================== */
+
+@media (max-width: 900px) {
+  .sema-encabezado {
+    width: calc(100% - 36px);
+    margin-top: 18px;
+    padding: 18px 24px;
+    gap: 20px;
+  }
+
+  .sema-menu {
+    gap: 18px;
+  }
+
+  .sema-menu a {
+    font-size: 14px;
+  }
+
+  .sema-presentacion {
+    width: min(100%, 600px);
+    padding: 35px 28px;
+  }
+
+  .sema-identidad h1 {
+    letter-spacing: -2px;
+  }
+
+  .sema-beneficios {
+    padding: 20px 28px;
+    gap: 12px;
+  }
+
+  .sema-beneficio {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .sema-beneficio-icono {
+    width: 43px;
+    height: 43px;
+    font-size: 22px;
+  }
+}
+
+/* ==========================================
+   CELULARES
+   ========================================== */
+
+@media (max-width: 600px) {
+  .sema-inicio {
+    padding: 8px;
+  }
+
+  .sema-portada {
+    min-height: calc(100vh - 16px);
+    border-radius: 16px;
+
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(255, 255, 255, 0.86) 45%,
+        rgba(255, 255, 255, 0.47) 100%
+      ),
+      url("/images/cultivo.jpeg");
+
+    background-position: center center;
+  }
+
+  .sema-encabezado {
+    width: calc(100% - 24px);
+    margin: 14px auto 0;
+
+    padding: 16px 18px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+
+    border-radius: 15px;
+  }
+
+  .sema-marca {
+    font-size: 24px;
+  }
+
+  .sema-menu {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .sema-menu a {
+    font-size: 13px;
+  }
+
+  .sema-presentacion {
+    width: 100%;
+    padding: 48px 20px 45px;
+  }
+
+  .sema-identidad {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .sema-simbolo {
+    font-size: 54px;
+  }
+
+  .sema-identidad h1 {
+    font-size: clamp(54px, 12vw, 75px);
+    letter-spacing: -2px;
+  }
+
+  .sema-identidad p {
+    font-size: 12px;
+  }
+
+  .sema-presentacion h2 {
+    font-size: 25px;
+  }
+
+  .sema-descripcion {
+    font-size: 15px;
+  }
+
+  .sema-acciones {
+    gap: 12px;
+  }
+
+  .sema-boton-comenzar,
+  .sema-boton-conocer {
+    min-height: 48px;
+    padding: 12px 22px;
+    font-size: 14px;
+  }
+
+  .sema-beneficios {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .sema-beneficio {
+    font-size: 14px;
+  }
+}
+
+/* Respeto por usuarios que prefieren menos movimiento */
+
+@media (prefers-reduced-motion: reduce) {
+  .sema-menu a,
+  .sema-boton-comenzar,
+  .sema-boton-conocer {
+    transition: none;
+  }
+}
