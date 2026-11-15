@@ -1,6 +1,8 @@
-# SEMA — Acceso y territorios
+# SEMA — Acceso, territorios y análisis ambiental
 
-Entrega integrada de Anderson: inicio de sesión, registro, recuperación, bienvenida y las pantallas Mi finca y Mapa satelital, con React, TypeScript y Vite. El recorrido es acceso → bienvenida → Mi finca → mapa. El acceso JWT real queda pendiente; para revisar el recorrido usar **Explorar demostración** en `/login`.
+Aplicación React, TypeScript y Vite con acceso, bienvenida y las pantallas 02 Mi finca, 03 Mapa satelital, 04 Análisis climático y del suelo, 05 Riesgos y alertas, y 06 Datos históricos. Al abrir la aplicación se muestra el acceso; se puede entrar por **Explorar demostración**.
+
+La arquitectura, flujos, contrato JSON, caché offline y pendientes de integración se describen en [Documentación general](docs/documentacion-general.md).
 
 ## Ejecutar
 
@@ -21,14 +23,14 @@ npm.cmd run preview
 
 ## Primera capa implementada
 
-- Navegación con React Router: `/login`, `/registro`, `/recuperar-contrasena`, `/bienvenido`, `/mi-finca` y `/mapa`. La raíz redirige al acceso o a la bienvenida según el estado en memoria. La portada y Acerca corresponden a otros integrantes y no forman parte de esta entrega.
-- Formularios de acceso con mensajes de validación, mostrar/ocultar contraseña y una demostración explícita separada de la autenticación. La API JWT todavía no está conectada; no se crean cuentas ni se envían correos de recuperación. Detalles en [Integración de acceso](src/features/acceso/INTEGRACION.md).
-- Bienvenida conectada a Mi finca y Mapa; salir limpia la sesión y el borrador del terreno. El acceso a las rutas internas en React no sustituye la autorización de los servicios del backend.
+- Navegación con React Router: `/login`, `/registro`, `/recuperar-contrasena`, `/bienvenido`, `/mi-finca`, `/mapa`, `/analisis-climatico`, `/riesgos-alertas` y `/datos-historicos`. La raíz lleva al acceso o a la bienvenida según el estado de sesión.
+- Formularios de acceso, registro y recuperación con validación. La API JWT aún no está conectada: no se crean cuentas ni se envían correos de recuperación. La demostración es explícita, vive en memoria y no representa autenticación real. Detalles en [Integración de acceso](src/features/acceso/INTEGRACION.md).
+- Bienvenida y pantallas de finca, mapa y análisis dentro de rutas protegidas por el estado de sesión de React. La protección del frontend no sustituye autorización en el backend.
 - Layout compartido y componentes Button, Card y Loading.
 - Formulario de nombre y selección de país y región dependiente desde geoBoundaries gbOpen. Vista previa ajustada al límite elegido. Alternativa por coordenadas manuales.
 - Selector opcional de municipio/división local dependiente de la región. Colombia utiliza los códigos y coordenadas de DIVIPOLA (DANE / Datos Abiertos); los demás países utilizan ADM2 de geoBoundaries cuando está disponible. Seleccionar una opción acerca la vista previa y el mapa del terreno. Cambiar país o región limpia la selección anterior y cancela la descarga pendiente.
 - Validación de latitud [-90, 90] y longitud [-180, 180], admitiendo punto o coma decimal.
-- Selección temporal compartida entre Mi finca y Mapa mediante estado de React. Al regresar al formulario se mantiene el borrador; al recargar se pierde.
+- Selección compartida entre Mi finca, Mapa y análisis mediante estado de React. El nombre y ubicación de referencia se guardan localmente para permitir consultar la caché ambiental tras recargar; el contorno administrativo y el polígono dibujado siguen siendo temporales.
 - Tipos propuestos para validar con backend: ubicación, borrador, finca y capa satelital.
 - Estilos base accesibles y adaptables, provisionales hasta recibir el diseño del equipo.
 - Mapa interactivo Leaflet con cartografía base de OpenStreetMap y un marcador del punto de referencia.
@@ -38,13 +40,26 @@ npm.cmd run preview
 
 ## Pendiente, no simulado
 
-Todavía no hay búsqueda libre de ciudades por nombre, registro persistente, conexión con backend ni recomendaciones agrícolas. Los selectores utilizan los nombres y la cobertura publicados por geoBoundaries; ADM1 puede faltar en ciertos países.
+Todavía no hay búsqueda libre de ciudades por nombre, registro de fincas ni backend implementado en este repositorio. El frontend ambiental espera un backend en `VITE_API_BASE_URL` con las rutas descritas abajo. Los selectores territoriales utilizan los nombres y la cobertura publicados por geoBoundaries; ADM1 puede faltar en ciertos países.
 
-Google Cloud es una oferta de plataforma: aún debe elegirse un producto concreto. Meteomatics corresponde a datos meteorológicos y requiere coordinar el acceso con backend; no se solicitan ni almacenan sus credenciales en React. Planetary Computer ya utiliza su catálogo STAC y servicio público de teselas, sin claves privadas del usuario. El mapa base se mantiene disponible si la búsqueda falla o no devuelve escenas.
+El análisis histórico consulta directamente las APIs públicas de NASA POWER y Open-Meteo. El frontend no incluye credenciales privadas. Open-Meteo requiere atribución y su API gratuita es solo para uso no comercial. Planetary Computer utiliza su catálogo STAC y servicio público de teselas; el mapa base se mantiene disponible si la búsqueda falla o no devuelve escenas.
+
+## Análisis ambiental y uso sin conexión
+
+- NASA POWER aporta series diarias de temperatura, precipitación, radiación solar y humedad relativa. Open-Meteo aporta esas variables y humedad del suelo estimada a 0–7 cm.
+- Las respuestas se normalizan con fuente, unidad, frecuencia, periodo y hora de consulta. Las estadísticas incluyen mínimo, máximo, promedio y cantidad de observaciones válidas.
+- Cada consulta conserva además el JSON original de cada proveedor disponible, junto con URL, estado HTTP, tipo de contenido y hora de recepción. El documento versionado se guarda en IndexedDB y se manda a `POST /api/analisis-ambiental`; la pantalla 06 permite descargarlo como archivo `.json`.
+- Las gráficas comparativas permiten filtrar por proveedor y, en periodos largos, acercarse al último año o a los últimos tres años. El cursor y el teclado muestran el detalle de cada fecha y de cada punto anual.
+- La pantalla 06 reúne las observaciones históricas en una tabla paginada, separada de la vista de gráficos.
+- Las tendencias se calculan sobre años calendario completos, con al menos 98 % de cobertura y un mínimo de tres años. Son descriptivas, no pronósticos.
+- La pantalla de riesgos permite definir umbrales, ventana de datos y severidad. No hay umbrales agronómicos predeterminados; las reglas configuradas se guardan localmente en este navegador.
+- Los análisis temporales se guardan en IndexedDB durante siete días y se envían al backend cuando está configurado. Sin conexión, la aplicación restaura la última consulta guardada para la ubicación actual, y permite recuperar periodos concretos que estén en caché. El service worker mantiene el shell de la aplicación y los recursos ya visitados para poder abrirla sin red.
+- Contrato esperado: `POST /api/analisis-ambiental` recibe el documento versionado con consulta, series normalizadas, observaciones originales, procedencia y `rawResponses`; se recomienda responder con el documento persistido, incluyendo el `analysisId` generado por backend. `GET /api/analisis-ambiental?latitud=…&longitud=…&inicio=…&fin=…` devuelve ese documento o HTTP 404/204 si no existe. Estas rutas aún deben implementarse en el backend.
+- Ejemplo de payload para el equipo backend: [`docs/contrato-analisis-ambiental.example.json`](docs/contrato-analisis-ambiental.example.json).
 
 ## Consultar imágenes
 
-1. Abrir `/login`, pulsar **Explorar demostración** y elegir **Conocer mi territorio**. En `/mi-finca`, dar un nombre, elegir un país y su región y, si se desea, un municipio/división local. La vista previa se ajusta a cada elección. También se pueden ingresar coordenadas válidas como alternativa.
+1. Abrir `/login`, pulsar **Explorar demostración** y desde la bienvenida ir a `/mi-finca`. Dar un nombre, elegir un país y su región y, si se desea, un municipio/división local. La vista previa se ajusta a cada elección. También se pueden ingresar coordenadas válidas como alternativa.
 2. Continuar a `/mapa`, acercarse al terreno y dibujar un polígono. Editar y eliminar requieren confirmar con Guardar. Un nuevo dibujo reemplaza el anterior. Se calculan su área aproximada en hectáreas y su centro de referencia, y se conserva el contorno GeoJSON en el estado compartido.
 3. Revisar el periodo y la nubosidad máxima y pulsar **Buscar imágenes**.
 4. Elegir una de las escenas encontradas. **Solo mapa base** permite retirar la imagen.
@@ -66,6 +81,16 @@ src/
   components/layout/        Header, Sidebar y MainLayout
   components/ui/            Button, Card y Loading
   features/acceso/          Login, registro, recuperación, bienvenida y sus estilos
+  features/analisis-ambiental/
+    components/            Gráficos de series/tendencias y estadísticas
+    hooks/                 Estado de consulta y reintento de sincronización
+    services/               NASA POWER, Open-Meteo, tendencias, caché y backend
+    AnalisisClimatico.tsx   Pantalla 04
+    DatosHistoricos.tsx     Pantalla 06
+  features/riesgos/
+    components/            Lista de indicadores y editor de reglas
+    services/               Evaluación y persistencia local de reglas
+    RiesgosAlertas.tsx      Pantalla 05
   features/territorios/
     components/            FormularioFinca, BuscadorUbicacion, MapaTerreno, SelectorCapas
     services/              Validación de coordenadas y llamadas a Planetary Computer
@@ -78,7 +103,7 @@ src/
   styles/                  Variables y estilos compartidos
 ```
 
-Las demás pantallas se integrarán con sus responsables. Esta entrega unifica acceso, bienvenida y territorios en una sola rama.
+El análisis ambiental y los riesgos son módulos independientes que comparten contratos de datos; así las pantallas pueden reutilizar series, estadísticas y procedencia sin duplicar llamadas ni lógica de cálculo.
 
 ## Datos e integración
 
@@ -94,9 +119,9 @@ Copiar `.env.example` a `.env.local` solo si se necesita indicar `VITE_API_BASE_
 
 ## Trabajo en equipo
 
-Rama de implementación: `feature/territorios-mapa`, actualizada desde `develop` después de integrar la primera entrega de territorios. El nuevo commit añade acceso y bienvenida a la misma rama. Coordinar `App.tsx`, layout y estilos compartidos con los responsables de la portada y de los demás módulos. El Pull Request original de territorios ya fue integrado; esta ampliación requiere una nueva revisión hacia `develop`.
+La rama integra el flujo de acceso y bienvenida con territorios, análisis climático, riesgos y datos históricos. La demostración de acceso no equivale a autenticación real; la integración JWT depende del backend.
 
-El alojamiento de producción debe redirigir las rutas de la SPA a `index.html` para que funcionen las recargas de `/mi-finca` y `/mapa`.
+El alojamiento de producción debe redirigir las rutas de la SPA a `index.html` para que funcionen las rutas internas. El service worker requiere HTTPS o localhost.
 
 ## Comprobaciones de esta base (14 de noviembre de 2026)
 

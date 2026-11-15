@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "analysisId": null,
+  "farmId": null,
+  "location": {
+    "latitude": 6.2442,
+    "longitude": -75.5812
+  },
+  "period": {
+    "start": "2024-01-01",
+    "end": "2024-01-02"
+  },
+  "fetchedAt": "2024-01-03T14:30:00.000Z",
+  "createdAt": "2024-01-03T14:30:00.000Z",
+  "expiresAt": null,
+  "rawResponses": {
+    "nasa-power": {
+      "requestedUrl": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR%2CALLSKY_SFC_SW_DWN%2CRH2M",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "receivedAt": "2024-01-03T14:29:55.000Z",
+      "body": {
+        "properties": {
+          "parameter": {
+            "T2M": { "20240101": 22.4, "20240102": -999 },
+            "PRECTOTCORR": { "20240101": 2.1, "20240102": 0 },
+            "ALLSKY_SFC_SW_DWN": { "20240101": 18.4, "20240102": 17.9 },
+            "RH2M": { "20240101": 74.0, "20240102": 76.0 }
+          }
+        }
+      }
+    },
+    "open-meteo": {
+      "requestedUrl": "https://archive-api.open-meteo.com/v1/archive?latitude=6.2442&longitude=-75.5812&start_date=2024-01-01&end_date=2024-01-02",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "receivedAt": "2024-01-03T14:30:00.000Z",
+      "body": {
+        "latitude": 6.25,
+        "longitude": -75.625,
+        "daily_units": {
+          "time": "iso8601",
+          "temperature_2m_mean": "°C",
+          "precipitation_sum": "mm",
+          "shortwave_radiation_sum": "MJ/m²"
+        },
+        "daily": {
+          "time": ["2024-01-01", "2024-01-02"],
+          "temperature_2m_mean": [22.1, 22.8],
+          "precipitation_sum": [1.8, 0],
+          "shortwave_radiation_sum": [18.1, 17.5],
+          "relative_humidity_2m_mean": [73, 75]
+        },
+        "hourly": {
+          "time": ["2024-01-01T00:00", "2024-01-01T01:00"],
+          "soil_moisture_0_to_7cm": [0.31, 0.312]
+        }
+      }
+    }
+  },
+  "providerErrors": [],
+  "series": [
+    {
+      "variable": "temperatura",
+      "frequency": "diaria",
+      "unit": "°C",
+      "type": "historico",
+      "temporalReference": "UTC",
+      "period": {
+        "start": "2024-01-01",
+        "end": "2024-01-02"
+      },
+      "provenance": {
+        "provider": "open-meteo",
+        "model": "ERA5-Land",
+        "dataset": "temperature_2m_mean",
+        "attribution": "Open-Meteo / ERA5-Land (CC BY 4.0)",
+        "spatialResolution": "0.1° (aprox. 9 km)"
+      },
+      "observations": [
+        { "date": "2024-01-01", "value": 22.1 },
+        { "date": "2024-01-02", "value": 22.8 }
+      ]
+    },
+    {
+      "variable": "temperatura",
+      "frequency": "diaria",
+      "unit": "°C",
+      "type": "historico",
+      "temporalReference": "UTC",
+      "period": {
+        "start": "2024-01-01",
+        "end": "2024-01-02"
+      },
+      "provenance": {
+        "provider": "nasa-power",
+        "model": null,
+        "dataset": "T2M",
+        "attribution": "NASA POWER",
+        "spatialResolution": null
+      },
+      "observations": [
+        { "date": "2024-01-01", "value": 22.4 },
+        { "date": "2024-01-02", "value": null }
+      ]
+    }
+  ]
+}
