@@ -1,72 +1,141 @@
 .ac-pagina { --ac-tinta: #142c40; --ac-verde: #2d6d22; min-height: 100svh; display: grid; align-content: center; justify-items: center; gap: 22px; padding: 44px 24px 22px; color: var(--ac-tinta); background: radial-gradient(ellipse at 12% 8%, #cee7fa 0, transparent 48%), radial-gradient(ellipse at 92% 95%, #d7e7dc 0, transparent 40%), #eef5fa; }
+
 .ac-panel { width: min(1050px, 100%); display: grid; grid-template-columns: .9fr 1.1fr; overflow: hidden; border: 1px solid #ffffff; border-radius: 26px; background: #f9fcff; box-shadow: 0 24px 80px #163e5a14, 0 2px 8px #163e5a08; }
-.ac-paisaje { position: relative; min-height: 710px; padding: 35px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; color: #fff; background: linear-gradient(180deg, #0d34452b, #19351405 30%, #12321ce0 100%), url('/images/acceso-campo.jpg') 48% center / cover; }
+
+/* Imagen de cultivos compartida con la portada principal */
+.ac-paisaje { position: relative; min-height: 710px; padding: 35px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; color: #fff; background: linear-gradient(180deg, #0d34452b, #19351405 30%, #12321ce0 100%), url('/images/cultivo.jpeg') 48% center / cover; }
+
 .ac-paisaje::after { content: ''; position: absolute; inset: 15px; border: 1px solid #ffffff42; border-radius: 16px; pointer-events: none; }
+
 .ac-etiqueta-paisaje { display: inline-flex; align-items: center; gap: 8px; font-size: .58rem; letter-spacing: .17em; font-weight: 700; padding: 7px 12px; border-radius: 30px; background: #103c3a45; backdrop-filter: blur(12px); }
+
 .ac-etiqueta-paisaje > span { width: 6px; height: 6px; border-radius: 50%; background: #d4f68e; }
+
 .ac-relato { margin-top: auto; padding: 70px 0 35px; }
+
 .ac-linea { display: block; height: 3px; width: 36px; background: #bbdb7d; margin-bottom: 22px; }
+
 .ac-relato p { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.04em; line-height: 1.2; font-weight: 650; margin-bottom: 20px; text-wrap: balance; }
+
 .ac-relato em { font-style: normal; color: #d0ed9b; }
+
 .ac-relato > span:last-child { font-size: .82rem; color: #f0f6e9; line-height: 1.65; }
+
 .ac-pie-paisaje { font-size: .57rem; letter-spacing: .22em; color: #e6eddf; }
+
 .ac-contenido { padding: 42px 52px 36px; align-self: center; min-width: 0; }
+
 .ac-cabecera { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 27px; }
+
 .ac-cabecera > a { color: inherit; text-decoration: none; }
+
 .ac-marca { display: inline-flex; align-items: center; gap: 9px; font-size: 1.85rem; font-weight: 850; font-style: italic; letter-spacing: -.07em; line-height: 1.1; color: #182e37; }
+
 .ac-marca > svg { width: 53px; height: 53px; flex-shrink: 0; }
+
 .ac-marca small { display: block; font-size: .43rem; letter-spacing: -.015em; font-weight: 500; font-style: normal; margin-top: 5px; }
+
 .ac-modo { display: inline-flex; align-items: center; gap: 7px; font-size: .64rem; color: #4a6580; background: #edf4fb; padding: 5px 9px; border-radius: 5px; margin-bottom: 25px; }
+
 .ac-modo > span { width: 5px; height: 5px; background: #5a8cbb; border-radius: 50%; }
+
 .ac-antetitulo { font-size: .58rem !important; font-weight: 750; color: #467654 !important; letter-spacing: .14em; margin-bottom: 10px !important; }
+
 .ac-titulo { margin-bottom: 27px; }
+
 .ac-titulo h1 { font-size: clamp(1.7rem, 3vw, 2.05rem); line-height: 1.2; font-weight: 750; color: #132d40; letter-spacing: -.045em; margin: 0 0 10px; }
+
 .ac-titulo > p:last-child { color: #627080; font-size: .81rem; line-height: 1.65; margin: 0; }
+
 .ac-formulario { display: grid; gap: 18px; }
+
 .ac-campo label { display: block; font-size: .82rem; font-weight: 650; margin-bottom: 7px; color: #253f51; }
+
 .ac-entrada { display: flex; align-items: center; gap: 11px; min-height: 49px; border: 1px solid #c9d6df; border-radius: 9px; padding: 0 14px; background: #f5f9fc; box-shadow: 0 1px 2px #17374f04; transition: border-color .15s, box-shadow .15s; }
+
 .ac-entrada:focus-within { border-color: #407b9c; box-shadow: 0 0 0 3px #4d8db21a; background: #fff; }
+
 .ac-entrada > svg { color: #6b7e8b; width: 18px; height: 18px; flex-shrink: 0; }
+
 .ac-entrada input { width: 100%; min-width: 0; padding: 13px 0; font-size: .9rem; line-height: 1.3; border: 0; outline: none; background: transparent; border-radius: 0; color: #162f41; }
+
 .ac-entrada input::placeholder { color: #75818d; opacity: 1; }
+
 .ac-entrada input:focus-visible { outline: none; }
+
 .ac-ver-clave { flex-shrink: 0; display: grid; place-items: center; min-width: 32px; min-height: 36px; padding: 3px; margin: -2px -6px -2px 0; border: 0; border-radius: 5px; background: transparent; color: #667f8d; cursor: pointer; }
+
 .ac-ver-clave:hover { color: #173f58; background: #e5eef4; }
+
 .ac-ver-clave svg { width: 19px; height: 19px; }
+
 .ac-ayuda, .ac-error-campo { margin: 6px 0 0; font-size: .74rem; line-height: 1.45; }
+
 .ac-ayuda { color: #657482; }
+
 .ac-error-campo { color: #a02e28; }
+
 .ac-campo-error .ac-entrada { border-color: #bb5548; background: #fff8f6; }
+
 .ac-enlaces-formulario { display: flex; justify-content: flex-end; margin-top: -4px; }
+
 .ac-enlaces-formulario a, .ac-alternativa a { color: #235e7e; font-weight: 650; font-size: .73rem; }
+
 .ac-primario { width: 100%; min-height: 49px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 12px 20px; color: #fff; font-size: .82rem; font-weight: 700; border: 1px solid #4a8b22; border-radius: 9px; background: linear-gradient(180deg, #74ae2d, #3c7e1f); box-shadow: 0 4px 12px #417d2424; cursor: pointer; transition: filter .15s, transform .15s; }
+
 .ac-primario:hover { filter: brightness(.94); transform: translateY(-1px); }
 .ac-primario:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
 .ac-primario svg { width: 18px; height: 18px; }
+
 .ac-alternativa { text-align: center; margin: 22px 0 0; color: #627080; font-size: .74rem; }
+
 .ac-alternativa a { margin-left: 5px; }
+
 .ac-demo { margin-top: 27px; padding-top: 20px; border-top: 1px solid #e0e9ef; text-align: center; }
+
 .ac-demo > span { color: #687a88; font-size: .69rem; }
+
 .ac-boton-demo { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 9px; padding: 10px; border: 1px solid #c9d9e4; border-radius: 8px; background: #f5f9fd; color: #30596e; font-size: .75rem; font-weight: 650; cursor: pointer; }
+
 .ac-boton-demo:hover { background: #eaf3f9; }
+
 .ac-boton-demo svg { width: 16px; height: 16px; }
+
 .ac-demo > p { margin: 9px 0 0; font-size: .61rem; color: #687a88; }
+
 .ac-pie { color: #5b7382; font-size: .64rem; text-align: center; }
+
 .ac-pie span { margin: 0 8px; }
+
 .ac-mensaje { margin: 0; padding: 13px; border: 1px solid #b9d4e6; border-radius: 8px; background: #edf5fb; color: #28516a; font-size: .73rem; line-height: 1.6; }
+
 .ac-insignia { display: grid; place-items: center; width: 54px; height: 54px; margin: 4px 0 22px; border: 1px solid #d7e7db; border-radius: 16px; background: #edf5e9; color: #48752e; }
+
 .ac-insignia svg { width: 25px; height: 25px; }
+
 .ac-nota-recuperacion { display: flex; gap: 13px; align-items: flex-start; padding: 17px; margin-top: 36px; background: #eff5f8; border-radius: 10px; color: #5b7382; }
+
 .ac-nota-recuperacion svg { flex-shrink: 0; margin-top: 3px; width: 19px; }
+
 .ac-nota-recuperacion p { font-size: .71rem; margin: 0; }
+
 .ac-panel-registro .ac-contenido { padding-top: 32px; padding-bottom: 32px; }
+
 .ac-panel-registro .ac-cabecera { margin-bottom: 18px; }
+
 .ac-panel-registro .ac-modo { margin-bottom: 18px; }
+
 .ac-panel-registro .ac-formulario { gap: 15px; }
+
 .ac-barra-demo { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; padding: 9px 25px; background: #eef5fb; border-bottom: 1px solid #cbdee9; color: #446b82; font-size: .68rem; }
+
 .ac-barra-demo a { color: #315d76; }
+
 .ac-barra-demo > span { margin-left: auto; }
+
 .ac-barra-demo button { padding: 3px 9px; border: 1px solid #b7cedc; border-radius: 5px; color: #315d76; background: #fff; cursor: pointer; font-size: inherit; }
+
 @media (max-width: 850px) {
   .ac-pagina { padding: 25px 18px 20px; }
   .ac-panel { grid-template-columns: .7fr 1fr; }
@@ -75,6 +144,7 @@
   .ac-relato p { font-size: 1.8rem; }
   .ac-etiqueta-paisaje { font-size: .5rem; padding: 7px; }
 }
+
 @media (max-width: 620px) {
   .ac-pagina { display: block; padding: 16px 12px 20px; }
   .ac-panel { display: flex; flex-direction: column; border-radius: 19px; max-width: 440px; margin: auto; }
@@ -92,4 +162,8 @@
   .ac-pie { margin: 20px auto 0; }
   .ac-salto { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .ac-primario, .ac-entrada { transition: none; } .ac-primario:hover { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ac-primario, .ac-entrada { transition: none; }
+  .ac-primario:hover { transform: none; }
+}

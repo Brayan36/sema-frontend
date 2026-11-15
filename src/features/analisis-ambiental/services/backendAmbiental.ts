@@ -1,41 +1,9 @@
 import type { AnalisisAmbiental, ConsultaHistoricaAmbiental } from '../../../types/ambiental';
-import { obtenerBaseApi, obtenerFuenteDatos } from '../../../services/api';
+import { obtenerBaseApi } from '../../../services/api';
 import { crearDocumentoAnalisis, leerDocumentoAnalisis } from './documentoAmbiental';
 
 const RUTA_ANALISIS = '/api/analisis-ambiental';
 const TIMEOUT_MS = 12_000;
-const RECURSO_ANALISIS = '/recursos/analisis-ambiental.json';
-
-/** Lee el mismo contrato JSON que puede devolver GET /api/analisis-ambiental. */
-export async function cargarAnalisisDeRecurso(
-  consulta: ConsultaHistoricaAmbiental,
-  signal?: AbortSignal,
-): Promise<AnalisisAmbiental> {
-  const respuesta = await fetch(RECURSO_ANALISIS, {
-    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(TIMEOUT_MS)]) : AbortSignal.timeout(TIMEOUT_MS),
-    headers: { Accept: 'application/json' },
-  });
-  if (!respuesta.ok) throw new Error(`No se pudo cargar el recurso de análisis (HTTP ${respuesta.status}).`);
-  const analisis = leerDocumentoAnalisis(await respuesta.json());
-  if (!analisis) throw new Error('El recurso de análisis ambiental no cumple el contrato JSON esperado.');
-  const inicio = new Date(`${consulta.inicio}T00:00:00.000Z`);
-  const fin = new Date(`${consulta.fin}T00:00:00.000Z`);
-  return {
-    ...analisis,
-    ubicacion: consulta.ubicacion,
-    periodo: { inicio: consulta.inicio, fin: consulta.fin },
-    series: analisis.series.map((serie) => ({
-      ...serie,
-      periodo: { inicio: consulta.inicio, fin: consulta.fin },
-      puntos: serie.puntos.flatMap(({ valor }, indice) => {
-        const fechaConsulta = new Date(inicio);
-        fechaConsulta.setUTCDate(fechaConsulta.getUTCDate() + indice);
-        if (fechaConsulta > fin) return [];
-        return [{ fecha: fechaConsulta.toISOString().slice(0, 10), valor }];
-      }),
-    })),
-  };
-}
 
 function crearUrl(consulta: ConsultaHistoricaAmbiental, fincaId?: string): URL | null {
   const base = obtenerBaseApi();
@@ -68,9 +36,6 @@ function esAnalisisAmbiental(valor: unknown): valor is AnalisisAmbiental {
 export async function guardarAnalisisEnBackend(
   analisis: AnalisisAmbiental,
 ): Promise<{ enviado: boolean; analisis?: AnalisisAmbiental }> {
-  if (obtenerFuenteDatos() === 'recursos') {
-    return { enviado: true, analisis: { ...analisis, analysisId: 'demo-analysis' } };
-  }
   const base = obtenerBaseApi();
   if (!base) return { enviado: false };
 
@@ -106,7 +71,6 @@ export async function recuperarAnalisisDelBackend(
   consulta: ConsultaHistoricaAmbiental,
   fincaId?: string,
 ): Promise<AnalisisAmbiental | null> {
-  if (obtenerFuenteDatos() === 'recursos') return cargarAnalisisDeRecurso(consulta);
   const url = crearUrl(consulta, fincaId);
   if (!url) return null;
 
@@ -121,4 +85,44 @@ export async function recuperarAnalisisDelBackend(
   if (documento) return documento;
   if (esAnalisisAmbiental(contenido)) return contenido;
   throw new Error('El backend devolvió un análisis ambiental con formato inválido.');
+}
+
+/**
+ * Carga un análisis ambiental de demostración
+ * desde un recurso JSON local.
+ *
+ * Los datos son simulados y no deben presentarse
+ * como mediciones reales.
+ */
+export async function cargarAnalisisDeRecurso(
+  _consulta: ConsultaHistoricaAmbiental,
+  signal?: AbortSignal,
+): Promise<AnalisisAmbiental> {
+  const respuesta = await fetch(
+    '/recursos/analisis-ambiental.json',
+    {
+      signal,
+      headers: {
+        Accept: 'application/json',
+      },
+    },
+  );
+
+  if (!respuesta.ok) {
+    throw new Error(
+      `No se pudo cargar el recurso ambiental: HTTP ${respuesta.status}.`,
+    );
+  }
+
+  const contenido: unknown = await respuesta.json();
+
+  const analisis = leerDocumentoAnalisis(contenido);
+
+  if (!analisis) {
+    throw new Error(
+      'El recurso ambiental tiene un formato inválido.',
+    );
+  }
+
+  return analisis;
 }
