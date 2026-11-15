@@ -1,6 +1,6 @@
-# SEMA — Módulo de territorios
+# SEMA — Acceso y territorios
 
-Entrega de Anderson: pantalla 02 Mi finca (formulario) y pantalla 03 Mapa satelital, con React, TypeScript y Vite. Al abrir la aplicación se muestra el formulario; desde él se continúa al mapa.
+Entrega integrada de Anderson: inicio de sesión, registro, recuperación, bienvenida y las pantallas Mi finca y Mapa satelital, con React, TypeScript y Vite. El recorrido es acceso → bienvenida → Mi finca → mapa. El acceso JWT real queda pendiente; para revisar el recorrido usar **Explorar demostración** en `/login`.
 
 ## Ejecutar
 
@@ -21,7 +21,9 @@ npm.cmd run preview
 
 ## Primera capa implementada
 
-- Navegación con React Router: `/mi-finca` y `/mapa`. La raíz `/` y las direcciones desconocidas redirigen al formulario. Inicio y Acerca no forman parte de esta entrega.
+- Navegación con React Router: `/login`, `/registro`, `/recuperar-contrasena`, `/bienvenido`, `/mi-finca` y `/mapa`. La raíz redirige al acceso o a la bienvenida según el estado en memoria. La portada y Acerca corresponden a otros integrantes y no forman parte de esta entrega.
+- Formularios de acceso con mensajes de validación, mostrar/ocultar contraseña y una demostración explícita separada de la autenticación. La API JWT todavía no está conectada; no se crean cuentas ni se envían correos de recuperación. Detalles en [Integración de acceso](src/features/acceso/INTEGRACION.md).
+- Bienvenida conectada a Mi finca y Mapa; salir limpia la sesión y el borrador del terreno. El acceso a las rutas internas en React no sustituye la autorización de los servicios del backend.
 - Layout compartido y componentes Button, Card y Loading.
 - Formulario de nombre y selección de país y región dependiente desde geoBoundaries gbOpen. Vista previa ajustada al límite elegido. Alternativa por coordenadas manuales.
 - Selector opcional de municipio/división local dependiente de la región. Colombia utiliza los códigos y coordenadas de DIVIPOLA (DANE / Datos Abiertos); los demás países utilizan ADM2 de geoBoundaries cuando está disponible. Seleccionar una opción acerca la vista previa y el mapa del terreno. Cambiar país o región limpia la selección anterior y cancela la descarga pendiente.
@@ -42,7 +44,7 @@ Google Cloud es una oferta de plataforma: aún debe elegirse un producto concret
 
 ## Consultar imágenes
 
-1. Abrir `/mi-finca`, dar un nombre, elegir un país y su región y, si se desea, un municipio/división local. La vista previa se ajusta a cada elección. También se pueden ingresar coordenadas válidas como alternativa.
+1. Abrir `/login`, pulsar **Explorar demostración** y elegir **Conocer mi territorio**. En `/mi-finca`, dar un nombre, elegir un país y su región y, si se desea, un municipio/división local. La vista previa se ajusta a cada elección. También se pueden ingresar coordenadas válidas como alternativa.
 2. Continuar a `/mapa`, acercarse al terreno y dibujar un polígono. Editar y eliminar requieren confirmar con Guardar. Un nuevo dibujo reemplaza el anterior. Se calculan su área aproximada en hectáreas y su centro de referencia, y se conserva el contorno GeoJSON en el estado compartido.
 3. Revisar el periodo y la nubosidad máxima y pulsar **Buscar imágenes**.
 4. Elegir una de las escenas encontradas. **Solo mapa base** permite retirar la imagen.
@@ -63,6 +65,7 @@ Documentación de integración:
 src/
   components/layout/        Header, Sidebar y MainLayout
   components/ui/            Button, Card y Loading
+  features/acceso/          Login, registro, recuperación, bienvenida y sus estilos
   features/territorios/
     components/            FormularioFinca, BuscadorUbicacion, MapaTerreno, SelectorCapas
     services/              Validación de coordenadas y llamadas a Planetary Computer
@@ -75,7 +78,7 @@ src/
   styles/                  Variables y estilos compartidos
 ```
 
-Las demás pantallas se integrarán con sus responsables. Esta entrega contiene únicamente las dos pantallas de territorios y los componentes, servicios, estilos y configuración necesarios para ejecutarlas.
+Las demás pantallas se integrarán con sus responsables. Esta entrega unifica acceso, bienvenida y territorios en una sola rama.
 
 ## Datos e integración
 
@@ -91,7 +94,7 @@ Copiar `.env.example` a `.env.local` solo si se necesita indicar `VITE_API_BASE_
 
 ## Trabajo en equipo
 
-Rama de implementación: `feature/territorios-mapa`, basada en `develop`. La navegación provisional incluye únicamente Mi finca y Mapa satelital. Al integrar con el equipo, coordinar `App.tsx`, layout y estilos compartidos para incorporar estas dos pantallas en la navegación general. Esta preparación local no implica que se haya abierto o integrado un Pull Request.
+Rama de implementación: `feature/territorios-mapa`, actualizada desde `develop` después de integrar la primera entrega de territorios. El nuevo commit añade acceso y bienvenida a la misma rama. Coordinar `App.tsx`, layout y estilos compartidos con los responsables de la portada y de los demás módulos. El Pull Request original de territorios ya fue integrado; esta ampliación requiere una nueva revisión hacia `develop`.
 
 El alojamiento de producción debe redirigir las rutas de la SPA a `index.html` para que funcionen las recargas de `/mi-finca` y `/mapa`.
 
@@ -99,6 +102,7 @@ El alojamiento de producción debe redirigir las rutas de la SPA a `index.html` 
 
 - `npm.cmd run build`: correcto, con TypeScript estricto.
 - `npm.cmd run lint`: correcto.
+- Acceso: 18 comprobaciones de campos obligatorios, correo, límites de registro y confirmación de contraseña. La demostración no emite JWT, no concede roles y no representa un inicio de sesión real.
 - Municipios: comprobados códigos y coordenadas de Medellín y Tunja, 125 municipios de Antioquia, 123 de Boyacá y presencia de opciones en las 33 divisiones colombianas. La prueba de agrupación geométrica detectó una omisión en Antioquia; por eso Colombia utiliza la relación departamental de DIVIPOLA.
 - Selección territorial: descarga directa desde media.githubusercontent.com para archivos LFS y alternativa raw.githubusercontent.com para archivos normales. Se evita github.com/raw porque su redirección no permite CORS desde el navegador. 21 comprobaciones de catálogo, errores HTTP, geometría, área, centro y normalización/fallback de URLs. El flujo de dibujo y edición requiere revisión visual en el navegador.
 - Nueve comprobaciones directas de coordenadas: vacío, texto inválido, infinito, límites, cero y coma decimal.
