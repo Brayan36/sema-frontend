@@ -83,6 +83,7 @@ export async function consultarHistoricoNasaPower(
 ): Promise<ResultadoProveedorAmbiental> {
   validarConsultaHistorica(consulta);
 
+
   const url = new URL(API);
   url.search = new URLSearchParams({
     parameters: parametros.map(({ codigo }) => codigo).join(','),
@@ -121,12 +122,38 @@ export async function consultarHistoricoNasaPower(
   if (!jsonValido) {
     return { series: [], respuestaCruda, error: 'NASA POWER no devolvió un JSON válido.' };
   }
-  if (!esObjeto(cuerpo) || !esObjeto(cuerpo.properties) || !esObjeto(cuerpo.properties.parameter)) {
-    return { series: [], respuestaCruda, error: 'La respuesta de NASA POWER no tiene el formato esperado.' };
+  if (!esObjeto(cuerpo)) {
+    return {
+      series: [],
+      respuestaCruda,
+      error: 'La respuesta de NASA POWER no tiene el formato esperado.',
+    };
+  }
+
+  const properties = cuerpo.properties;
+
+  if (!esObjeto(properties)) {
+    return {
+      series: [],
+      respuestaCruda,
+      error: 'La respuesta de NASA POWER no tiene el formato esperado.',
+    };
+  }
+
+  const parameter = properties.parameter;
+
+  if (!esObjeto(parameter)) {
+    return {
+      series: [],
+      respuestaCruda,
+      error: 'La respuesta de NASA POWER no tiene el formato esperado.',
+    };
   }
 
   return {
-    series: parametros.map(({ codigo }) => crearSerie(codigo, cuerpo.properties.parameter[codigo], consulta)),
+    series: parametros.map(({ codigo }) =>
+      crearSerie(codigo, parameter[codigo], consulta)
+    ),
     respuestaCruda,
   };
 }

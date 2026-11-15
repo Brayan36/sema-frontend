@@ -3,7 +3,6 @@ import type {
   FrecuenciaAmbiental,
   ProcedenciaAmbiental,
   ProveedorAmbiental,
-  RespuestaCrudaProveedorAmbiental,
   SerieAmbiental,
   TipoDatoAmbiental,
   UnidadAmbiental,
