@@ -82,6 +82,7 @@ export default function MapaSatelital({ borrador, onActualizar }: { borrador: Bo
             <p className="texto-secundario">ESA/Copernicus · Distribuida por Microsoft Planetary Computer.</p>
           </div>}
           <Link className="enlace-boton secundario" to="/mi-finca">{borrador ? 'Editar ubicación' : 'Seleccionar ubicación'}</Link>
+          <Link className="enlace-boton" to="/analisis-climatico">Continuar al análisis climático</Link>
         </Card>
       </div>
     </div>
