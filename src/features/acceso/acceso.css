@@ -41,6 +41,7 @@
 .ac-enlaces-formulario a, .ac-alternativa a { color: #235e7e; font-weight: 650; font-size: .73rem; }
 .ac-primario { width: 100%; min-height: 49px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 12px 20px; color: #fff; font-size: .82rem; font-weight: 700; border: 1px solid #4a8b22; border-radius: 9px; background: linear-gradient(180deg, #74ae2d, #3c7e1f); box-shadow: 0 4px 12px #417d2424; cursor: pointer; transition: filter .15s, transform .15s; }
 .ac-primario:hover { filter: brightness(.94); transform: translateY(-1px); }
+.ac-primario:disabled { opacity: .65; cursor: not-allowed; transform: none; }
 .ac-primario svg { width: 18px; height: 18px; }
 .ac-alternativa { text-align: center; margin: 22px 0 0; color: #627080; font-size: .74rem; }
 .ac-alternativa a { margin-left: 5px; }

@@ -12,7 +12,7 @@ export function obtenerFuenteDatos(): FuenteDatos {
 }
 
 export function obtenerBaseApi(): URL | null {
-  const valor = import.meta.env.VITE_API_BASE_URL?.trim();
+  const valor = import.meta.env.VITE_API_URL?.trim() || import.meta.env.VITE_API_BASE_URL?.trim();
   if (!valor) return null;
   const url = new URL(valor);
   if (url.protocol !== 'https:' && url.protocol !== 'http:') {

@@ -1,11 +1,11 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import InicioSesion from './features/acceso/InicioSesion';
 import RegistroUsuario from './features/acceso/RegistroUsuario';
 import RecuperarContrasena from './features/acceso/RecuperarContrasena';
 import Bienvenida from './features/acceso/Bienvenida';
-import type { SesionAcceso } from './features/acceso/types';
+import { demostracionHabilitada, useAutenticacion } from './features/acceso/useAutenticacion';
 import { useAnalisisAmbiental } from './features/analisis-ambiental/hooks/useAnalisisAmbiental';
 import { leerReglasLocales, guardarReglasLocales } from './features/riesgos/services/reglasLocal';
 import type { ReglaRiesgo } from './types/ambiental';
@@ -48,13 +48,14 @@ function leerFincaLocal(): BorradorFinca | null {
 
 export default function App() {
   const [borrador, setBorrador] = useState<BorradorFinca | null>(leerFincaLocal);
-  const [sesion, setSesion] = useState<SesionAcceso | null>(null);
+  const limpiarDatosSesion = useCallback(() => setBorrador(null), []);
+  const autenticacion = useAutenticacion(limpiarDatosSesion);
+  const { sesion } = autenticacion;
   const [reglasRiesgo, setReglasRiesgo] = useState<ReglaRiesgo[]>(leerReglasLocales);
   const analisisAmbiental = useAnalisisAmbiental(borrador, sesion !== null);
 
   function salir() {
-    setSesion(null);
-    setBorrador(null);
+    autenticacion.salir();
   }
 
   useEffect(() => {
@@ -77,11 +78,14 @@ export default function App() {
 
   useEffect(() => guardarReglasLocales(reglasRiesgo), [reglasRiesgo]);
 
+  if (autenticacion.comprobando) return <div className="pagina" role="status">Validando tu sesión con el servidor…</div>;
+  if (autenticacion.errorRestauracion) return <div className="pagina"><h1>No pudimos validar tu sesión</h1><p role="alert">{autenticacion.errorRestauracion}</p><button className="boton" onClick={autenticacion.reintentar}>Reintentar</button> <button onClick={salir}>Volver al acceso</button></div>;
+
   return (
     <Suspense fallback={<div className="pagina" role="status">Preparando tu espacio de trabajo…</div>}>
       <Routes>
         <Route index element={<Navigate to={sesion ? '/bienvenido' : '/login'} replace />} />
-        <Route path="login" element={sesion ? <Navigate to="/bienvenido" replace /> : <InicioSesion onIniciar={setSesion} />} />
+        <Route path="login" element={sesion ? <Navigate to="/bienvenido" replace /> : <InicioSesion aviso={autenticacion.mensaje} onIniciar={async (correo, clave) => { setBorrador(null); await autenticacion.iniciarSesion(correo, clave); }} onExplorar={demostracionHabilitada ? () => { setBorrador(null); autenticacion.explorar(); } : undefined} />} />
         <Route path="registro" element={sesion ? <Navigate to="/bienvenido" replace /> : <RegistroUsuario />} />
         <Route path="recuperar-contrasena" element={sesion ? <Navigate to="/bienvenido" replace /> : <RecuperarContrasena />} />
         <Route path="bienvenido" element={sesion ? <Bienvenida sesion={sesion} onSalir={salir} /> : <Navigate to="/login" replace />} />
