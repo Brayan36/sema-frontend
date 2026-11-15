@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
 const enlaces = [
+  { ruta: '/bienvenido', texto: 'Bienvenida', numero: '01' },
   { ruta: '/mi-finca', texto: 'Mi finca', numero: '02' },
   { ruta: '/mapa', texto: 'Mapa satelital', numero: '03' },
 ];
