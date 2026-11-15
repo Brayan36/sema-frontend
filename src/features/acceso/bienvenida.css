@@ -37,7 +37,10 @@
 .bv-demo > span { font-size: .52rem; white-space: nowrap; padding: 4px 7px; border: 1px solid #bfd3e0; border-radius: 4px; letter-spacing: .06em; font-weight: 700; }
 .bv-demo > p { margin: 0; font-size: .66rem; flex: 1; }
 .bv-demo > button { border: 0; border-bottom: 1px solid #95b5c9; padding: 0; color: #346682; background: transparent; font-size: .66rem; cursor: pointer; }
-.bv-hero { position: relative; min-height: 310px; overflow: hidden; border: 1px solid #cddfeb; border-radius: 19px; background: linear-gradient(90deg, #e9f5fc 0, #e5f3fb 36%, #d8ebf64d 65%, #0d2f4820), url('/images/bienvenida-tierra.jpg') right 44% / 75% auto no-repeat, #c6e2f3; }
+
+/* Fotografía original de SEMA en la bienvenida */
+.bv-hero { position: relative; min-height: 310px; overflow: hidden; border: 1px solid #cddfeb; border-radius: 19px; background: linear-gradient(90deg, #e9f5fc 0, #e5f3fb 36%, #d8ebf64d 65%, #0d2f4820), url('/images/cultivo.jpeg') right 44% / 75% auto no-repeat, #c6e2f3; }
+
 .bv-hero-contenido { position: relative; z-index: 1; padding: 39px; max-width: 630px; }
 .bv-antetitulo { display: inline-flex; align-items: center; gap: 7px; font-size: .57rem; letter-spacing: .15em; color: #3a7685; font-weight: 750; }
 .bv-antetitulo > span { width: 6px; height: 6px; border-radius: 50%; background: #539389; }
@@ -72,7 +75,66 @@
 .bv-pasos > span { display: flex; align-items: center; gap: 15px; color: #54705e; font-size: .74rem; }
 .bv-pasos b { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid #d3e3cf; border-radius: 50%; color: #739267; font-size: .57rem; font-weight: 600; }
 .bv-pie { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 23px; color: #7c909e; font-size: .57rem; }
-@media (min-width: 1500px) { .bv-hero { min-height: 360px; } .bv-hero-contenido { padding: 48px; } .bv-principal { padding-top: 35px; } }
-@media (max-width: 1150px) { .bv-pagina { grid-template-columns: 185px minmax(0, 1fr); } .bv-cabecera { padding: 18px 25px; } .bv-principal { padding: 24px; } .bv-accesos { gap: 11px; } .bv-tarjeta { padding: 21px 15px; } .bv-hero-contenido { padding: 30px; } .bv-tarjeta h2 { font-size: .8rem; } }
-@media (max-width: 950px) { .bv-accesos { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bv-primer-paso { grid-template-columns: 1fr; gap: 22px; padding: 26px; } .bv-pasos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; } .bv-pasos > span { flex-direction: column; align-items: flex-start; gap: 8px; font-size: .65rem; } .bv-hero { background-size: cover, cover; } .bv-hero-contenido { max-width: 440px; } .bv-salto { display: none; } }
-@media (max-width: 650px) { .bv-pagina { display: block; } .bv-lateral { padding: 14px 16px 11px; border-right: 0; border-bottom: 1px solid #dce7ed; } .bv-logo { margin: 0 0 12px; } .bv-logo .ac-marca { font-size: 1.45rem; } .bv-logo .ac-marca svg { width: 34px; height: 34px; } .bv-menu-titulo, .bv-grupo-futuro, .bv-nav-pendiente, .bv-lateral-pie { display: none; } .bv-navegacion { display: flex; gap: 7px; } .bv-navegacion > a { padding: 8px 13px; font-size: .71rem; gap: 8px; } .bv-navegacion > a svg { width: 16px; height: 16px; } .bv-cabecera { min-height: 66px; padding: 13px 18px; } .bv-cabecera > div:first-child { gap: 8px; font-size: .62rem; } .bv-perfil-texto, .bv-barra { display: none; } .bv-acciones { gap: 9px; } .bv-avatar { width: 33px; height: 33px; } .bv-principal { padding: 17px 14px; } .bv-demo { align-items: flex-start; gap: 9px; } .bv-demo > p { font-size: .59rem; } .bv-demo > span { font-size: .46rem; } .bv-hero { min-height: 305px; border-radius: 14px; background: linear-gradient(90deg, #e8f5fcf5 0, #e6f3fadb 60%, #d8ebf682), url('/images/bienvenida-tierra.jpg') center / cover; } .bv-hero-contenido { padding: 26px 23px 52px; } .bv-hero h1 { font-size: 1.95rem; max-width: 290px; } .bv-hero-contenido > p { font-size: .76rem; } .bv-hero-etiqueta { bottom: 15px; right: 16px; } .bv-accesos { gap: 11px; margin-top: 16px; } .bv-tarjeta { padding: 18px 15px; } .bv-icono-herramienta { width: 39px; height: 39px; margin-bottom: 17px; } .bv-tarjeta h2 { font-size: .79rem; } .bv-tarjeta p { font-size: .64rem; } .bv-primer-paso { padding: 22px; margin-top: 17px; } .bv-primer-paso h2 { font-size: 1.3rem; } .bv-pie { gap: 5px; font-size: .52rem; } }
+
+@media (min-width: 1500px) {
+  .bv-hero { min-height: 360px; }
+  .bv-hero-contenido { padding: 48px; }
+  .bv-principal { padding-top: 35px; }
+}
+
+@media (max-width: 1150px) {
+  .bv-pagina { grid-template-columns: 185px minmax(0, 1fr); }
+  .bv-cabecera { padding: 18px 25px; }
+  .bv-principal { padding: 24px; }
+  .bv-accesos { gap: 11px; }
+  .bv-tarjeta { padding: 21px 15px; }
+  .bv-hero-contenido { padding: 30px; }
+  .bv-tarjeta h2 { font-size: .8rem; }
+}
+
+@media (max-width: 950px) {
+  .bv-accesos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bv-primer-paso { grid-template-columns: 1fr; gap: 22px; padding: 26px; }
+  .bv-pasos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .bv-pasos > span { flex-direction: column; align-items: flex-start; gap: 8px; font-size: .65rem; }
+  .bv-hero { background-size: cover, cover; }
+  .bv-hero-contenido { max-width: 440px; }
+  .bv-salto { display: none; }
+}
+
+@media (max-width: 650px) {
+  .bv-pagina { display: block; }
+  .bv-lateral { padding: 14px 16px 11px; border-right: 0; border-bottom: 1px solid #dce7ed; }
+  .bv-logo { margin: 0 0 12px; }
+  .bv-logo .ac-marca { font-size: 1.45rem; }
+  .bv-logo .ac-marca svg { width: 34px; height: 34px; }
+  .bv-menu-titulo, .bv-grupo-futuro, .bv-nav-pendiente, .bv-lateral-pie { display: none; }
+  .bv-navegacion { display: flex; gap: 7px; }
+  .bv-navegacion > a { padding: 8px 13px; font-size: .71rem; gap: 8px; }
+  .bv-navegacion > a svg { width: 16px; height: 16px; }
+  .bv-cabecera { min-height: 66px; padding: 13px 18px; }
+  .bv-cabecera > div:first-child { gap: 8px; font-size: .62rem; }
+  .bv-perfil-texto, .bv-barra { display: none; }
+  .bv-acciones { gap: 9px; }
+  .bv-avatar { width: 33px; height: 33px; }
+  .bv-principal { padding: 17px 14px; }
+  .bv-demo { align-items: flex-start; gap: 9px; }
+  .bv-demo > p { font-size: .59rem; }
+  .bv-demo > span { font-size: .46rem; }
+
+  /* Misma imagen de cultivos en la versión móvil */
+  .bv-hero { min-height: 305px; border-radius: 14px; background: linear-gradient(90deg, #e8f5fcf5 0, #e6f3fadb 60%, #d8ebf682), url('/images/cultivo.jpeg') center / cover; }
+
+  .bv-hero-contenido { padding: 26px 23px 52px; }
+  .bv-hero h1 { font-size: 1.95rem; max-width: 290px; }
+  .bv-hero-contenido > p { font-size: .76rem; }
+  .bv-hero-etiqueta { bottom: 15px; right: 16px; }
+  .bv-accesos { gap: 11px; margin-top: 16px; }
+  .bv-tarjeta { padding: 18px 15px; }
+  .bv-icono-herramienta { width: 39px; height: 39px; margin-bottom: 17px; }
+  .bv-tarjeta h2 { font-size: .79rem; }
+  .bv-tarjeta p { font-size: .64rem; }
+  .bv-primer-paso { padding: 22px; margin-top: 17px; }
+  .bv-primer-paso h2 { font-size: 1.3rem; }
+  .bv-pie { gap: 5px; font-size: .52rem; }
+}

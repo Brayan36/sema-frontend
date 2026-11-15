@@ -22,30 +22,73 @@ export default function RiesgosAlertas({
 
   return (
     <div className="pagina ambiental-pagina">
-      <p className="sobre-titulo">05 / ANÁLISIS AMBIENTAL</p>
       <h1>Riesgos y alertas</h1>
-      <p className="introduccion">Configura indicadores para vigilar los datos ambientales de tu finca. La severidad y los umbrales dependen de tus reglas.</p>
+      <p className="introduccion">
+        Configura indicadores para vigilar los datos
+        ambientales de tu finca. La severidad y los
+        umbrales dependen de tus reglas.
+      </p>
 
       {!disponible && (
         <Card className="riesgos-sin-datos">
           <h2>Primero consulta datos ambientales</h2>
-          <p>La evaluación necesita series de NASA POWER u Open-Meteo para la ubicación y el periodo que quieras revisar.</p>
-          <Link className="enlace-boton" to="/analisis-climatico">Ir al análisis climático</Link>
+          <p>
+            La evaluación necesita series de NASA POWER
+            u Open-Meteo para la ubicación y el periodo
+            que quieras revisar.
+          </p>
+          <Link className="enlace-boton" to="/analisis-climatico">
+            Ir al análisis climático
+          </Link>
         </Card>
       )}
 
       {disponible && (
         <div className="ambiental-estado" role="status">
           <strong>{series.length} series disponibles</strong>
-          <span>{disponible.analisis.periodo?.inicio ?? disponible.analisis.series[0]?.periodo.inicio} — {disponible.analisis.periodo?.fin ?? disponible.analisis.series[0]?.periodo.fin}</span>
-          <span>Fuente: {disponible.fuente === 'cache-local' ? 'copia local' : disponible.fuente === 'backend' ? 'backend' : 'proveedores'}</span>
+          <span>
+            {disponible.analisis.periodo?.inicio ??
+              disponible.analisis.series[0]?.periodo.inicio}
+            {' — '}
+            {disponible.analisis.periodo?.fin ??
+              disponible.analisis.series[0]?.periodo.fin}
+          </span>
+          <span>
+            Fuente: {disponible.fuente === 'cache-local'
+              ? 'copia local'
+              : disponible.fuente === 'backend'
+                ? 'backend'
+                : 'proveedores'}
+          </span>
         </div>
       )}
 
       <div className="riesgos-layout">
-        <EditorReglasRiesgo series={series} reglas={reglas} onAgregar={onAgregarRegla} onEliminar={onEliminarRegla} />
+        <EditorReglasRiesgo
+          series={series}
+          reglas={reglas}
+          onAgregar={onAgregarRegla}
+          onEliminar={onEliminarRegla}
+        />
         <ListaRiesgos riesgos={resultados} />
       </div>
+
+      <nav
+        aria-label="Continuar recorrido agrícola"
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginTop: '32px',
+          marginBottom: '24px',
+        }}
+      >
+        <Link
+          to="/datos-historicos"
+          className="enlace-boton"
+        >
+          Continuar a Datos históricos →
+        </Link>
+      </nav>
     </div>
   );
 }

@@ -115,7 +115,7 @@ En Colombia, [DIVIPOLA](https://www.datos.gov.co/resource/gdxc-w37w.json) relaci
 
 ## Configuración y secretos
 
-Copiar `.env.example` a `.env.local` solo si se necesita indicar `VITE_API_BASE_URL`. Todo valor `VITE_*` es público en la aplicación compilada. Contraseñas, claves privadas y tokens de servicio pertenecen al backend. No se incluyen credenciales ni se habilita facturación.
+Copiar `.env.example` a `.env.local` para configurar el origen de datos y, al integrar el servidor, `VITE_API_BASE_URL`. `VITE_DATA_SOURCE` acepta `recursos`, `backend` o `proveedores`: el primero sirve el fixture JSON local, el segundo consulta `GET /api/analisis-ambiental`, y el tercero mantiene consultas directas a NASA POWER y Open-Meteo y sincroniza al backend si está configurado. En desarrollo se usa `recursos` por defecto; en producción, `backend`. Cambiar esta variable requiere reiniciar Vite o reconstruir la aplicación. Las pantallas consumen el mismo contrato TypeScript independientemente del origen. El recurso de ejemplo está en `public/recursos/analisis-ambiental.json`. Todo valor `VITE_*` es público en la aplicación compilada. Contraseñas, claves privadas y tokens de servicio pertenecen al backend. No se incluyen credenciales ni se habilita facturación.
 
 ## Trabajo en equipo
 
