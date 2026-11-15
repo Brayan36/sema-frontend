@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import MarcaSema from '../../features/acceso/components/MarcaSema';
 
-export default function Header({ onSalir, demostracion }: { onSalir: () => void; demostracion: boolean }) {
+export default function Header() {
   return (
     <header className="encabezado-sema">
       <Link
-        to="/bienvenida"
+        to="/bienvenido"
         className="marca-sema"
         aria-label="SEMA, ir a bienvenida"
       >

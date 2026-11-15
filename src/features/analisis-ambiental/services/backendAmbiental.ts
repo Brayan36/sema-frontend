@@ -86,3 +86,43 @@ export async function recuperarAnalisisDelBackend(
   if (esAnalisisAmbiental(contenido)) return contenido;
   throw new Error('El backend devolvió un análisis ambiental con formato inválido.');
 }
+
+/**
+ * Carga un análisis ambiental de demostración
+ * desde un recurso JSON local.
+ *
+ * Los datos son simulados y no deben presentarse
+ * como mediciones reales.
+ */
+export async function cargarAnalisisDeRecurso(
+  _consulta: ConsultaHistoricaAmbiental,
+  signal?: AbortSignal,
+): Promise<AnalisisAmbiental> {
+  const respuesta = await fetch(
+    '/recursos/analisis-ambiental.json',
+    {
+      signal,
+      headers: {
+        Accept: 'application/json',
+      },
+    },
+  );
+
+  if (!respuesta.ok) {
+    throw new Error(
+      `No se pudo cargar el recurso ambiental: HTTP ${respuesta.status}.`,
+    );
+  }
+
+  const contenido: unknown = await respuesta.json();
+
+  const analisis = leerDocumentoAnalisis(contenido);
+
+  if (!analisis) {
+    throw new Error(
+      'El recurso ambiental tiene un formato inválido.',
+    );
+  }
+
+  return analisis;
+}
