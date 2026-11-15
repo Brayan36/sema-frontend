@@ -129,7 +129,7 @@ export type ResultadoConsultaAmbiental = {
   errores: ErrorProveedorAmbiental[];
 };
 
-export type FuenteAnalisisDisponible = 'proveedores' | 'backend' | 'cache-local';
+export type FuenteAnalisisDisponible = 'proveedores' | 'backend' | 'recursos' | 'cache-local';
 
 export type AnalisisDisponible = {
   analisis: AnalisisAmbiental;
