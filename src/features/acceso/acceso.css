@@ -16,7 +16,6 @@
 .ac-marca { display: inline-flex; align-items: center; gap: 9px; font-size: 1.85rem; font-weight: 850; font-style: italic; letter-spacing: -.07em; line-height: 1.1; color: #182e37; }
 .ac-marca > svg { width: 53px; height: 53px; flex-shrink: 0; }
 .ac-marca small { display: block; font-size: .43rem; letter-spacing: -.015em; font-weight: 500; font-style: normal; margin-top: 5px; }
-.ac-nasa { object-fit: contain; width: 68px; height: 58px; }
 .ac-modo { display: inline-flex; align-items: center; gap: 7px; font-size: .64rem; color: #4a6580; background: #edf4fb; padding: 5px 9px; border-radius: 5px; margin-bottom: 25px; }
 .ac-modo > span { width: 5px; height: 5px; background: #5a8cbb; border-radius: 50%; }
 .ac-antetitulo { font-size: .58rem !important; font-weight: 750; color: #467654 !important; letter-spacing: .14em; margin-bottom: 10px !important; }
@@ -89,7 +88,6 @@
   .ac-marca { font-size: 1.65rem; }
   .ac-marca > svg { width: 44px; height: 44px; }
   .ac-marca small { font-size: .38rem; }
-  .ac-nasa { width: 56px; height: 48px; }
   .ac-pie { margin: 20px auto 0; }
   .ac-salto { display: none; }
 }

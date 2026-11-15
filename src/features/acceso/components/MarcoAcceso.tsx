@@ -12,7 +12,7 @@ export default function MarcoAcceso({ children, registro = false }: { children: 
         <span className="ac-pie-paisaje">TIERRA · CLIMA · AGRICULTURA</span>
       </aside>
       <div className="ac-contenido">
-        <header className="ac-cabecera"><Link to="/login" aria-label="SEMA, acceso"><MarcaSema /></Link><img src="/images/nasa-logo.svg" alt="NASA" className="ac-nasa" width="68" height="58" /></header>
+        <header className="ac-cabecera"><Link to="/login" aria-label="SEMA, acceso"><MarcaSema /></Link></header>
         <span className="ac-modo"><span /> Vista previa de la plataforma</span>
         {children}
       </div>
