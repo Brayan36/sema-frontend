@@ -10,7 +10,8 @@ import {
   marcarAnalisisSincronizado,
   obtenerAnalisisLocal,
 } from './cacheLocal';
-import { guardarAnalisisEnBackend, recuperarAnalisisDelBackend } from './backendAmbiental';
+import { cargarAnalisisDeRecurso, guardarAnalisisEnBackend, recuperarAnalisisDelBackend } from './backendAmbiental';
+import { obtenerFuenteDatos } from '../../../services/api';
 
 function crearAnalisis(
   consulta: ConsultaHistoricaAmbiental,
@@ -42,6 +43,24 @@ export async function cargarAnalisisHistorico(
   opciones: { fincaId?: string; signal?: AbortSignal } = {},
 ): Promise<AnalisisDisponible> {
   const { fincaId, signal } = opciones;
+
+  if (obtenerFuenteDatos() === 'recursos') {
+    const analisis = await cargarAnalisisDeRecurso(consulta, signal);
+    return { analisis, fuente: 'recursos', cacheVencida: false, avisos: ['Datos de demostración cargados desde un recurso JSON local.'] };
+  }
+
+  if (obtenerFuenteDatos() === 'backend') {
+    const analisis = await recuperarAnalisisDelBackend(consulta, fincaId);
+    if (analisis) return { analisis, fuente: 'backend', cacheVencida: false, avisos: [] };
+    const local = await obtenerAnalisisLocal(consulta, fincaId);
+    if (local) return {
+      analisis: local.analisis,
+      fuente: 'cache-local',
+      cacheVencida: local.vencido,
+      avisos: ['El backend no tiene un análisis para esta consulta; se muestra la copia local.'],
+    };
+    throw new Error('El backend no tiene un análisis para esta ubicación y periodo.');
+  }
 
   if (estaSinConexion()) {
     const local = await obtenerAnalisisLocal(consulta, fincaId);
