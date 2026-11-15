@@ -1,0 +1,233 @@
+.acerca-pagina {
+  min-height: 100vh;
+  background: #f8faf7;
+  color: #19382c;
+  font-family: inherit;
+}
+
+.acerca-contenedor {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.acerca-hero {
+  padding: 100px 0 90px;
+  background: linear-gradient(125deg, #123f31, #246b4e);
+  color: white;
+}
+
+.acerca-etiqueta {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c6e8ce;
+}
+
+.acerca-hero h1 {
+  font-size: clamp(38px, 6vw, 66px);
+  line-height: 1.1;
+  margin: 0 0 22px;
+  color: white;
+}
+
+.acerca-hero p {
+  max-width: 750px;
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.8;
+  color: #e4f2e9;
+}
+
+.acerca-contenido {
+  padding: 35px 0 85px;
+}
+
+.acerca-seccion {
+  padding: 60px 0;
+  border-bottom: 1px solid #dfe8df;
+}
+
+.acerca-numero {
+  color: #43865a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.acerca-seccion h2 {
+  font-size: clamp(27px, 4vw, 39px);
+  margin: 15px 0 20px;
+  line-height: 1.2;
+}
+
+.acerca-seccion > p {
+  max-width: 850px;
+  color: #52665a;
+  line-height: 1.9;
+  font-size: 16px;
+}
+
+.acerca-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.acerca-tarjeta,
+.acerca-destacado,
+.acerca-persona {
+  background: white;
+  border: 1px solid #e0e9e0;
+  border-radius: 17px;
+  padding: 26px;
+}
+
+.acerca-tarjeta h3,
+.acerca-destacado h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.acerca-tarjeta p,
+.acerca-destacado p {
+  color: #586a5f;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.acerca-destacado {
+  background: #edf5eb;
+  border-color: #cde2cd;
+  margin: 25px 0;
+}
+
+.acerca-destacado a {
+  display: inline-block;
+  margin-top: 20px;
+  color: #236a47;
+  font-weight: 700;
+}
+
+.acerca-equipo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.acerca-persona {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.acerca-avatar {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e3f0e2;
+  color: #236b47;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.acerca-persona h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+
+.acerca-persona p {
+  margin: 0;
+  font-size: 13px;
+  color: #68786c;
+}
+
+.acerca-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.acerca-enlaces a {
+  padding: 11px 16px;
+  border: 1px solid #d5e5d6;
+  border-radius: 10px;
+  background: white;
+  color: #286d4b;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.acerca-enlaces a:hover {
+  background: #eaf4e9;
+  transform: translateY(-2px);
+}
+
+.acerca-fuentes {
+  margin-top: 34px;
+}
+
+.acerca-fuentes h3 {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+
+.acerca-contacto {
+  border-bottom: none;
+}
+
+.acerca-contactos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 26px;
+}
+
+.acerca-contacto-item {
+  background: white;
+  border: 1px solid #e0e9e0;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.acerca-contacto-item span {
+  font-size: 13px;
+  color: #78877b;
+}
+
+@media (max-width: 700px) {
+  .acerca-hero {
+    padding: 70px 0;
+  }
+
+  .acerca-contenedor {
+    width: min(100% - 30px, 1100px);
+  }
+
+  .acerca-seccion {
+    padding: 42px 0;
+  }
+
+  .acerca-grid,
+  .acerca-equipo,
+  .acerca-contactos {
+    grid-template-columns: 1fr;
+  }
+
+  .acerca-tarjeta,
+  .acerca-destacado,
+  .acerca-persona {
+    padding: 20px;
+  }
+}
