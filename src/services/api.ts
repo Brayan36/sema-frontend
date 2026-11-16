@@ -8,7 +8,14 @@ export type FuenteDatos = 'recursos' | 'backend' | 'proveedores';
 export function obtenerFuenteDatos(): FuenteDatos {
   const valor = import.meta.env.VITE_DATA_SOURCE?.trim().toLowerCase();
   if (valor === 'recursos' || valor === 'backend' || valor === 'proveedores') return valor;
-  return import.meta.env.DEV ? 'recursos' : 'backend';
+  // El modo recursos omitía las APIs y producción usaba una ruta aún inexistente.
+  // Las demostraciones y el backend deben seleccionarse explícitamente.
+  return 'proveedores';
+}
+
+export function sincronizacionAmbientalHabilitada(): boolean {
+  // Activar solo cuando el backend implemente GET/POST /api/analisis-ambiental.
+  return import.meta.env.VITE_SYNC_ANALYSIS === 'true';
 }
 
 export function obtenerBaseApi(): URL | null {

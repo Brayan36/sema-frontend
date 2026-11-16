@@ -17,6 +17,8 @@ const variablesDiarias = [
   { clave: 'precipitation_sum', variable: 'precipitacion', unidad: 'mm/día' },
   { clave: 'shortwave_radiation_sum', variable: 'radiacion-solar', unidad: 'MJ/m²/día' },
   { clave: 'relative_humidity_2m_mean', variable: 'humedad-relativa', unidad: '%' },
+  { clave: 'wind_speed_10m_mean', variable: 'velocidad-viento', unidad: 'km/h' },
+  { clave: 'et0_fao_evapotranspiration', variable: 'evapotranspiracion', unidad: 'mm/día' },
 ] as const satisfies ReadonlyArray<{
   clave: string;
   variable: VariableAmbiental;
@@ -70,9 +72,9 @@ function crearSerie(
     procedencia: {
       proveedor: 'open-meteo',
       conjuntoDatos,
-      modelo: 'ERA5-Land',
-      resolucionEspacial: '0.1° (aprox. 9 km)',
-      atribucion: 'Open-Meteo / ERA5-Land (CC BY 4.0)',
+      modelo: 'ERA5',
+      resolucionEspacial: '0.25° (aprox. 25 km)',
+      atribucion: 'Open-Meteo / ERA5 (CC BY 4.0)',
     },
   };
 }
@@ -90,8 +92,11 @@ export async function consultarHistoricoOpenMeteo(
     start_date: consulta.inicio,
     end_date: consulta.fin,
     daily: variablesDiarias.map(({ clave }) => clave).join(','),
-    hourly: 'soil_moisture_0_to_7cm',
-    models: 'era5_land',
+    hourly: 'soil_moisture_0_to_7cm,soil_temperature_0_to_7cm',
+    // ERA5-Land responde 200 con precipitación/radiación nulas en esta consulta.
+    // ERA5 permite consultar juntas las ocho variables sin inventar valores.
+    models: 'era5',
+    wind_speed_unit: 'kmh',
     timezone: 'UTC',
     timeformat: 'iso8601',
   }).toString();
@@ -134,6 +139,15 @@ export async function consultarHistoricoOpenMeteo(
   const series = variablesDiarias.map(({ clave, variable, unidad }) =>
     crearSerie(variable, unidad, clave, 'diaria', fechasDiarias, daily[clave], consulta),
   );
+  series.push(crearSerie(
+    'temperatura-suelo',
+    '°C',
+    'soil_temperature_0_to_7cm',
+    'horaria',
+    fechasHorarias,
+    hourly.soil_temperature_0_to_7cm,
+    consulta,
+  ));
   series.push(crearSerie(
     'humedad-suelo',
     'm³/m³',
