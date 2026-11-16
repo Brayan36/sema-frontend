@@ -115,7 +115,7 @@ En Colombia, [DIVIPOLA](https://www.datos.gov.co/resource/gdxc-w37w.json) relaci
 
 ## Configuración y secretos
 
-Copiar `.env.example` a `.env.local` para configurar el origen de datos y, al integrar el servidor, `VITE_API_BASE_URL`. `VITE_DATA_SOURCE` acepta `recursos`, `backend` o `proveedores`: el primero sirve el fixture JSON local, el segundo consulta `GET /api/analisis-ambiental`, y el tercero mantiene consultas directas a NASA POWER y Open-Meteo y sincroniza al backend si está configurado. En desarrollo se usa `recursos` por defecto; en producción, `backend`. Cambiar esta variable requiere reiniciar Vite o reconstruir la aplicación. Las pantallas consumen el mismo contrato TypeScript independientemente del origen. El recurso de ejemplo está en `public/recursos/analisis-ambiental.json`. Todo valor `VITE_*` es público en la aplicación compilada. Contraseñas, claves privadas y tokens de servicio pertenecen al backend. No se incluyen credenciales ni se habilita facturación.
+Copiar `.env.example` a `.env.local` para configurar el origen de datos y, al integrar el servidor, `VITE_API_BASE_URL`. `VITE_DATA_SOURCE` acepta `recursos`, `backend` o `proveedores`: el primero sirve el fixture JSON local, el segundo consulta `GET /api/analisis-ambiental`, y el tercero mantiene consultas directas a NASA POWER y Open-Meteo y solo sincroniza al backend al activar VITE_SYNC_ANALYSIS=true. En desarrollo y producción se usa proveedores por defecto. El modo recursos se selecciona explícitamente para demostraciones. Cambiar esta variable requiere reiniciar Vite o reconstruir la aplicación. Las pantallas consumen el mismo contrato TypeScript independientemente del origen. El recurso de ejemplo está en `public/recursos/analisis-ambiental.json`. Todo valor `VITE_*` es público en la aplicación compilada. Contraseñas, claves privadas y tokens de servicio pertenecen al backend. No se incluyen credenciales ni se habilita facturación.
 
 ## Trabajo en equipo
 
@@ -138,3 +138,14 @@ El alojamiento de producción debe redirigir las rutas de la SPA a `index.html` 
 - La auditoría completa informa siete alertas moderadas en la cadena de herramientas de desarrollo (`typescript-eslint` y `minimatch`). Revisar su compatibilidad con el equipo antes de cambiar versiones; no se aplicó `audit fix --force`.
 
 La licencia original del repositorio se conserva en `LICENSE`.
+
+
+## Corrección del análisis climático
+
+El análisis consulta NASA POWER y Open-Meteo con ERA5 (0.25°, aproximadamente 25 km). La consulta anterior con ERA5-Land devolvía HTTP 200 pero precipitación y radiación nulas para Bogotá, enero de 2024; se verificó que ERA5 entrega valores para las ocho variables: temperatura del aire, precipitación, radiación, humedad relativa, viento, evapotranspiración de referencia y temperatura/humedad del suelo a 0–7 cm. El suelo se conserva por hora y el resto por día.
+
+La pantalla incluye todas las observaciones recibidas en una tabla paginada y descarga JSON completa, además de los gráficos resumidos. No se rellenan huecos con ceros. El histórico termina por defecto siete días antes de hoy por la latencia de publicación.
+
+VITE_DATA_SOURCE=proveedores activa las APIs reales. VITE_SYNC_ANALYSIS=false evita el 404 de /api/analisis-ambiental mientras esa ruta no exista; el almacenamiento local continúa disponible. Cambiar variables requiere reiniciar Vite o recompilar.
+
+Pruebas: `npm.cmd run test:ambiental`. Para incluir las APIs reales en PowerShell, ejecutar `$env:LIVE_APIS='true'` antes de ese comando. La prueba real verifica las ocho variables y doce series entre ambos proveedores para Bogotá, del 1 al 3 de enero de 2024.
