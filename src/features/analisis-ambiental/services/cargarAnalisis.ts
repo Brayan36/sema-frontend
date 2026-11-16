@@ -11,7 +11,7 @@ import {
   obtenerAnalisisLocal,
 } from './cacheLocal';
 import { cargarAnalisisDeRecurso, guardarAnalisisEnBackend, recuperarAnalisisDelBackend } from './backendAmbiental';
-import { obtenerFuenteDatos } from '../../../services/api';
+import { obtenerFuenteDatos, sincronizacionAmbientalHabilitada } from '../../../services/api';
 
 function crearAnalisis(
   consulta: ConsultaHistoricaAmbiental,
@@ -76,34 +76,38 @@ export async function cargarAnalisisHistorico(
   const resultado = await consultarHistoricoAmbiental(consulta, signal);
   const avisos = resultado.errores.map(({ proveedor, mensaje }) => `${proveedor}: ${mensaje}`);
 
-  if (resultado.series.length > 0 || Object.keys(resultado.respuestasCrudas).length > 0) {
+  // Una respuesta HTTP o una serie llena de null no constituyen datos útiles.
+  if (resultado.series.some((serie) => serie.puntos.some((punto) => punto.valor !== null))) {
     let analisis = crearAnalisis(consulta, resultado.series, fincaId);
     analisis.respuestasCrudas = resultado.respuestasCrudas;
     analisis.erroresProveedores = resultado.errores;
-    let sincronizacionPendiente = true;
+    const sincronizar = sincronizacionAmbientalHabilitada();
+    let sincronizacionPendiente = sincronizar;
     try {
-      await guardarAnalisisLocal(consulta, analisis, true, fincaId);
+      await guardarAnalisisLocal(consulta, analisis, sincronizar, fincaId);
     } catch (error) {
       avisos.push(error instanceof Error ? `No se pudo guardar copia local: ${error.message}` : 'No se pudo guardar copia local.');
     }
 
-    try {
-      const respuestaBackend = await guardarAnalisisEnBackend(analisis);
-      sincronizacionPendiente = !respuestaBackend.enviado;
-      if (respuestaBackend.enviado) {
-        if (respuestaBackend.analisis) analisis = respuestaBackend.analisis;
-        try {
-          await guardarAnalisisLocal(consulta, analisis, false, fincaId);
-        } catch (error) {
-          avisos.push(error instanceof Error
-            ? `El backend guardó el análisis, pero no se pudo actualizar el estado de sincronización local: ${error.message}`
-            : 'El backend guardó el análisis, pero no se pudo actualizar el estado de sincronización local.');
+    if (sincronizar) {
+      try {
+        const respuestaBackend = await guardarAnalisisEnBackend(analisis);
+        sincronizacionPendiente = !respuestaBackend.enviado;
+        if (respuestaBackend.enviado) {
+          if (respuestaBackend.analisis) analisis = respuestaBackend.analisis;
+          try {
+            await guardarAnalisisLocal(consulta, analisis, false, fincaId);
+          } catch (error) {
+            avisos.push(error instanceof Error
+              ? `El backend guardó el análisis, pero no se pudo actualizar el estado de sincronización local: ${error.message}`
+              : 'El backend guardó el análisis, pero no se pudo actualizar el estado de sincronización local.');
+          }
+        } else {
+          avisos.push('Backend sin configurar; el análisis quedó pendiente de sincronización.');
         }
-      } else {
-        avisos.push('Backend sin configurar; el análisis quedó pendiente de sincronización.');
+      } catch (error) {
+        avisos.push(error instanceof Error ? `No se pudo sincronizar con el backend: ${error.message}` : 'No se pudo sincronizar con el backend.');
       }
-    } catch (error) {
-      avisos.push(error instanceof Error ? `No se pudo sincronizar con el backend: ${error.message}` : 'No se pudo sincronizar con el backend.');
     }
 
     if (sincronizacionPendiente) {
@@ -123,7 +127,9 @@ export async function cargarAnalisisHistorico(
   }
 
   try {
-    const analisisBackend = await recuperarAnalisisDelBackend(consulta, fincaId);
+    const analisisBackend = sincronizacionAmbientalHabilitada()
+      ? await recuperarAnalisisDelBackend(consulta, fincaId)
+      : null;
     if (analisisBackend) {
       try {
         await guardarAnalisisLocal(consulta, analisisBackend, false, fincaId);
@@ -147,7 +153,7 @@ export async function cargarAnalisisHistorico(
 
 /** Reintenta envíos que quedaron en la cola local mientras no había backend disponible. */
 export async function sincronizarAnalisisPendientes(): Promise<number> {
-  if (estaSinConexion()) return 0;
+  if (estaSinConexion() || !sincronizacionAmbientalHabilitada()) return 0;
   const pendientes = await listarPendientesDeSincronizacion();
   let sincronizados = 0;
 

@@ -33,6 +33,13 @@ export async function consultarHistoricoAmbiental(
       series.push(...resultado.value.series);
       respuestasCrudas[proveedor] = resultado.value.respuestaCruda;
       if (resultado.value.error) errores.push({ proveedor, mensaje: resultado.value.error });
+      const sinDatos = resultado.value.series.filter((serie) =>
+        !serie.puntos.some((punto) => punto.valor !== null),
+      );
+      if (sinDatos.length > 0) errores.push({
+        proveedor,
+        mensaje: `Sin observaciones disponibles para: ${sinDatos.map((serie) => serie.variable).join(', ')}. Prueba otro periodo.`,
+      });
       return;
     }
 

@@ -15,9 +15,14 @@ import ListaRiesgos from '../riesgos/components/ListaRiesgos';
 import GraficoComparativo from './components/GraficoComparativo';
 import GraficoTendencia from './components/GraficoTendencia';
 import TarjetaEstadisticas from './components/TarjetaEstadisticas';
+import TablaHistorica from './components/TablaHistorica';
+import { descargarDocumentoAnalisis } from './services/documentoAmbiental';
 import './analisis-pantallas.css';
 
-const hoy = new Date().toISOString().slice(0, 10);
+// ERA5 se publica con retraso: no pedir hoy evita huecos al final del histórico.
+const ultimoDiaHistorico = new Date();
+ultimoDiaHistorico.setUTCDate(ultimoDiaHistorico.getUTCDate() - 7);
+const hoy = ultimoDiaHistorico.toISOString().slice(0, 10);
 
 const haceCincoAnos = new Date();
 haceCincoAnos.setUTCFullYear(
@@ -53,6 +58,8 @@ function etiquetaFuente(
   if (fuente === 'cache-local') {
     return 'Copia temporal de este dispositivo';
   }
+
+  if (fuente === 'recursos') return 'Datos de demostración; no son mediciones reales';
 
   return 'Consulta reciente a NASA POWER y Open-Meteo';
 }
@@ -219,6 +226,11 @@ export default function AnalisisClimatico({
             </Button>
           </form>
 
+          <p className="mensaje-estado">
+            Histórico disponible hasta {hoy}; se reservan siete días por el retraso de publicación.
+            Los valores ausentes del proveedor se indican como «Sin dato».
+          </p>
+
           {error && (
             <p
               className="mensaje-error"
@@ -260,6 +272,11 @@ export default function AnalisisClimatico({
                 de siete días.
               </span>
             )}
+
+            <span>
+              {new Set(series.map((serie) => serie.variable)).size} variables ·{' '}
+              {series.length} series por proveedor
+            </span>
 
             <span>
               Datos consultados:{' '}
@@ -313,6 +330,11 @@ export default function AnalisisClimatico({
           </section>
 
           {/* GRÁFICOS */}
+
+          <TablaHistorica series={fusion.series} />
+          <Button type="button" onClick={() => descargarDocumentoAnalisis(disponible.analisis)}>
+            Descargar todos los datos (JSON)
+          </Button>
 
           {fusion.series.length > 0 ? (
             <>
@@ -394,7 +416,7 @@ export default function AnalisisClimatico({
                 La humedad del suelo proviene
                 de una estimación de modelo de
                 Open-Meteo para 0–7 cm.
-                Atribución: Open-Meteo / ERA5-Land
+                Atribución: Open-Meteo / ERA5
                 (CC BY 4.0).
               </p>
 
